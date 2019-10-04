@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'member',
+    'rom'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -73,11 +75,16 @@ WSGI_APPLICATION = 'jgm.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-
+MYSQL_SERVER_IP = '127.0.0.1'
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'jgm',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': MYSQL_SERVER_IP,
+        'PORT': '3306',
+        'OPTIONS': { 'init_command': 'SET default_storage_engine=MYISAM;' }
     }
 }
 
@@ -119,3 +126,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'jgm/static/'),
+)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'jgm/media/')
