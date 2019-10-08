@@ -1,0 +1,5 @@
+Django==1.9
+django-subdomains==2.1.0
+MySQL-python==1.2.5
+Pillow==6.2.0
+pytz==2019.3

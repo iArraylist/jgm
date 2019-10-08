@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from django.http import HttpResponse
 
-# Create your views here.
+
+def home(request):
+    if request.user.is_anonymous():
+        return HttpResponse("Hello ROM world.")
+    else:
+        return HttpResponse("Hello ROM " + request.user.username)

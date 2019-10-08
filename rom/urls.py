@@ -3,6 +3,7 @@ from django.contrib import admin
 
 
 urlpatterns = patterns(
-    'jgm',
-    url(r'^', include(admin.site.urls)),
+    'rom',
+    url(r'^', 'views.home', name='rom_home'),
+    url(r'^home/$', 'views.home', name='rom_home'),
 )

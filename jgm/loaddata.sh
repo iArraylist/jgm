@@ -1,4 +1,7 @@
 #!/bin/bash
 
-echo 'Rom.Class'
-python manage.py loaddata jgm/json/rom-class.json
+echo 'Rom.Job'
+python manage.py loaddata jgm/json/rom-job.json
+
+echo 'Sites.Site'
+python manage.py loaddata jgm/json/sites-site.json

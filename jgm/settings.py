@@ -37,11 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'member',
     'rom'
 ]
 
 MIDDLEWARE_CLASSES = [
+    'subdomains.middleware.SubdomainURLRoutingMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -52,7 +54,13 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+SITE_ID = 2610
 ROOT_URLCONF = 'jgm.urls'
+SUBDOMAIN_URLCONFS = {
+    None: 'rom.urls',
+    'adminjgm': 'jgm.urls',
+    'app': 'rom.urls',
+}
 
 TEMPLATES = [
     {
