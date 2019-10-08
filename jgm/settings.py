@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'social_django',
-    'rom'
+    'rom',
+    'guild',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -72,10 +73,10 @@ SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [
         ('picture', 'picture'),
 ]
 
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_URL = 'logout'
-LOGOUT_REDIRECT_URL = 'login'
+LOGIN_URL = 'rom_login'
+LOGIN_REDIRECT_URL = 'rom_home'
+LOGOUT_URL = 'rom_logout'
+LOGOUT_REDIRECT_URL = 'rom_login'
 
 URL_SITE = 'app.jgm.com:8000'
 SITE_ID = 2610
