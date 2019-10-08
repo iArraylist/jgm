@@ -3,24 +3,19 @@ from django.shortcuts import redirect
 from django.contrib.auth import logout as django_logout
 from django.conf import settings
 from django.http import HttpResponse
+from django.shortcuts import render
 
 
 def logout(request):
     django_logout(request)
-    try:
-        return redirect('rom_home')
-    except:
-        return redirect(settings.URL_SITE)
+    return redirect('home')
 
 
 def login(request):
     if request.user.is_authenticated():
-        return redirect('rom_home')
+        return redirect('home')
 
-    if request.method == 'POST':
-        return HttpResponse("MA")
-    else:
-        return HttpResponse("MA")
+    return render(request, 'registration/login.html')
 
 
 def register(request):

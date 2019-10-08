@@ -11,7 +11,7 @@ class Job(models.Model):
 
 
 class CharacterBase(models.Model):
-    member = models.ForeignKey('member.Member')
+    member = models.ForeignKey('auth.User')
     ign = models.CharField(max_length=255)
     base_level = models.PositiveSmallIntegerField(default=1, validators=[MaxValueValidator(120), MinValueValidator(1)])
     contribution = models.PositiveIntegerField(default=0)

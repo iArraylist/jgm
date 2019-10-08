@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'member',
+    'social_django',
     'rom'
 ]
 
@@ -57,11 +57,30 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+SOCIAL_AUTH_FACEBOOK_KEY = 0
+SOCIAL_AUTH_FACEBOOK_SECRET = ''
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {'fields': 'id, name, email, picture.type(large)'}
+SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [
+        ('name', 'name'),
+        ('email', 'email'),
+        ('picture', 'picture'),
+]
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_URL = 'logout'
+LOGOUT_REDIRECT_URL = 'login'
+
 URL_SITE = 'app.jgm.com:8000'
 SITE_ID = 2610
 ROOT_URLCONF = 'jgm.urls'
 SUBDOMAIN_URLCONFS = {
-    None: 'rom.urls',
     'adminjgm': 'jgm.urls',
     'app': 'rom.urls',
 }
@@ -77,6 +96,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -96,7 +117,7 @@ DATABASES = {
         'PASSWORD': 'root',
         'HOST': MYSQL_SERVER_IP,
         'PORT': '3306',
-        'OPTIONS': { 'init_command': 'SET default_storage_engine=MYISAM;' }
+        'OPTIONS': { 'init_command': 'SET default_storage_engine=InnoDB;' }
     }
 }
 
@@ -143,3 +164,8 @@ STATICFILES_DIRS = (
 )
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'jgm/media/')
+
+try:
+    from local_settings import *
+except ImportError:
+    raise

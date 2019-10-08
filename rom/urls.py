@@ -1,9 +1,10 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from . import views as rom_views
-from . import views_account as rom_views_account
+from jgm import views_account as jgm_views_account
 
 urlpatterns = [
-    url(r'^$', rom_views.home, name='rom_home'),
-    url(r'^logout/$', rom_views_account.logout, name='rom_logout'),
-    url(r'^login/$', rom_views_account.login, name='rom_login'),
+    url(r'^$', rom_views.home, name='home'),
+    url(r'^logout/$', jgm_views_account.logout, name='logout'),
+    url(r'^login/$', jgm_views_account.login, name='login'),
+    url('social-auth/', include('social_django.urls', namespace='social')),
 ]
