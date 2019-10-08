@@ -25,7 +25,10 @@ SECRET_KEY = '(^uga0^@0fn!rtxx*9-$_urttm4yfdy!tez$hi_pct+wyf@0%5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    u'app.jgm.com',
+    u'adminjgm.jgm.com',
+]
 
 
 # Application definition
@@ -54,6 +57,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+URL_SITE = 'app.jgm.com:8000'
 SITE_ID = 2610
 ROOT_URLCONF = 'jgm.urls'
 SUBDOMAIN_URLCONFS = {
