@@ -82,7 +82,7 @@ URL_SITE = 'app.jgm.com:8000'
 SITE_ID = 2610
 ROOT_URLCONF = 'jgm.urls'
 SUBDOMAIN_URLCONFS = {
-    'adminjgm': 'jgm.urls',
+    'superjaelynn': 'jgm.urls',
     'app': 'rom.urls',
 }
 
