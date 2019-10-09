@@ -26,8 +26,8 @@ SECRET_KEY = '(^uga0^@0fn!rtxx*9-$_urttm4yfdy!tez$hi_pct+wyf@0%5'
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    u'superjaelynn.jgm.com',
     u'app.jgm.com',
-    u'adminjgm.jgm.com',
 ]
 
 
