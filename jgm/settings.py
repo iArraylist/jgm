@@ -75,8 +75,6 @@ SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [
 
 LOGIN_URL = 'rom_login'
 LOGIN_REDIRECT_URL = 'rom_home'
-LOGOUT_URL = 'rom_logout'
-LOGOUT_REDIRECT_URL = 'rom_login'
 
 URL_SITE = 'app.jgm.com:8000'
 SITE_ID = 2610
