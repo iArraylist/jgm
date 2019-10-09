@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.contrib.auth import logout as django_logout
 from django.http import HttpResponse
 from django.shortcuts import render
+from jgm.services.request_management import RequestManagement
 
 
 def logout(request):
@@ -13,7 +14,8 @@ def logout(request):
 
 
 def login(request):
-    if request.user.is_authenticated():
+    rm = RequestManagement(request)
+    if rm.is_authenticated():
         return redirect('rom_home')
 
     return render(request, 'registration/login.html')

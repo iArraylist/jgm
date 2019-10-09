@@ -7,4 +7,6 @@ urlpatterns = [
     url(r'^logout/$', jgm_views_account.logout, name='rom_logout'),
     url(r'^login/$', jgm_views_account.login, name='rom_login'),
     url('social-auth/', include('social_django.urls', namespace='social')),
+
+    url(r'^$')
 ]
