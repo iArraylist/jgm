@@ -164,6 +164,8 @@ STATICFILES_DIRS = (
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'jgm/media/')
 
+CHARACTER_MAX_LEVEL = 120
+
 try:
     from local_settings import *
 except ImportError:

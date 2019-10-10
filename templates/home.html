@@ -2,19 +2,26 @@
 {% block title %} Home {% endblock %}
 {% block content %}
 <div class="row">
-    <div class="col-sm-12 mb-3">
-        <h4 class="text-center"> Welcome {{ user.username }} </h4>
-    </div>
     {% for ass in backends.associated %}
         {% if ass.provider == 'facebook' %}
             <div class="col-md-6 text-center">
-                <img src="{{ass.extra_data.picture.data.url}}" alt="" width="150" height="150" style="border-radius: 50%">
+                <img class="fb" src="{{ass.extra_data.picture.data.url}}" alt="" width="150" height="150" style="border-radius: 50%">
             </div>
-            <div class="col-md-6 social-container my-2">                 <p> Signed in via:  {{ ass.provider }} </p>
+            <div class="col-md-6 social-container my-2">
                 <p> Name:  {{ ass.extra_data.name }} </p>
             </div>
         {% endif %}
     {% endfor %}
+    <div class="col-sm-12 mt-2 text-center">
+        {% for base in bases %}
+        <a href="{% url 'rom_character_edit' base.id %}"> {{ base.name }}</a>
+        {% endfor %}
+    </div>
+    <div class="col-sm-12 mt-2 text-center">
+      <button class="btn btn-success">
+        <a href="{% url 'rom_character_create' %}">Create Character</a>
+      </button>
+    </div>
     <div class="col-sm-12 mt-2 text-center">
       <button class="btn btn-danger">
         <a href="{% url 'rom_logout' %}">Logout</a>

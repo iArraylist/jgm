@@ -24,3 +24,5 @@ class RequestManagement(object):
 
     def get_user(self):
         return self.request.user
+
+
