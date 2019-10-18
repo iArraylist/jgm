@@ -17,13 +17,15 @@ class CharacterManagement(object):
             self.base = None
 
     def push_base(self, ign, base_level, contribution, gold_medal, job_ids):
-        self.base = CharacterBase(
+        base = CharacterBase(
             member=self.user,
             ign=ign,
             base_level=base_level,
             contribution=contribution,
             gold_medal=gold_medal,
         )
+
+        self.base.save()
 
         for job_id in job_ids:
             self.push_job(
@@ -38,6 +40,7 @@ class CharacterManagement(object):
                     base=self.base,
                     job_id=job_id,
                 )
+                job.save()
                 return job
         else:
             raise Exception("Please init CharacterManagement with base_id")

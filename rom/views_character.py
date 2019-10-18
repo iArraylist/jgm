@@ -17,7 +17,14 @@ def create(request):
     if rm.is_method_post():
         form = CharacterForm(request.POST)
         if form.is_valid():
+            form_json = form.cleaned_data
+            print form_json
             chm = CharacterManagement(rm.get_user())
+            chm.push_base(ign=form_json['ign'],
+                          base_level=form_json['base_level'],
+                          contribution=form_json['contribution'],
+                          gold_medal=form_json['gold_medal'],
+                          job_ids=form_json['jobs'])
             return redirect('rom_home')
     else:
         form = CharacterForm()
