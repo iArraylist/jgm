@@ -63,6 +63,6 @@ class CharacterJob(models.Model):
     create_timestamp = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = (("base", "job"),)
+        unique_together = (('base', 'job'),)
 
 

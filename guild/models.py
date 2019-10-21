@@ -19,6 +19,11 @@ class Guild(models.Model):
     create_timestamp = models.DateTimeField(auto_now_add=True)
     update_timestamp = models.DateTimeField(auto_now=True)
 
+    def save(self, *args, **kwargs):
+        if self.invite_code is None:
+            self.__generate_invite_code()
+        super(self.__class__, self).save(*args, **kwargs)
+
     def get_data_json(self, key=None, default=None):
         try:
             data_json = json.loads(self.data)
@@ -40,7 +45,7 @@ class Guild(models.Model):
         self.data = json.dumps(data)
         return data_json
 
-    def generate_invite_code(self):
+    def __generate_invite_code(self):
         import uuid
         gen = True
         while gen:

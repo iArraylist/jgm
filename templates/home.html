@@ -5,6 +5,13 @@
     <div class="col-sm-12 mt-2 text-center">
         {% for base in bases %}
         <a href="{% url 'rom_character_edit' base.id %}"> {{ base.ign }}</a>
+        {% if base.guild %}
+        <a href="#">{{ base.guild.guild_name }}</a>
+        {% else %}
+        <a href="{% url 'guild_create' base.id %}" class="btn btn-success">Create Guild</a>
+        <a href="#" class="btn btn-success">Join Guild</a>
+        {% endif %}
+        <hr>
         {% endfor %}
     </div>
     <div class="col-sm-12 mt-2 text-center">

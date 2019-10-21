@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from rom.models import CharacterBase, CharacterJob, Job
+from rom.models import CharacterBase, CharacterJob
 from rom.form_character import CharacterForm
+from jgm.services.request_management import get_data
 
 
 class CharacterManagement(object):
@@ -22,7 +23,6 @@ class CharacterManagement(object):
         contribution = form_json['contribution']
         gold_medal = form_json['gold_medal']
         job_ids = form_json['jobs']
-        hash_form = hash_form
 
         self.base = CharacterBase(
             member=self.user,
@@ -32,8 +32,7 @@ class CharacterManagement(object):
             gold_medal=gold_medal,
         )
 
-        data = dict()
-        data['hash_form'] = hash_form
+        data = get_data(form_json, ['hash_form'])
         self.base.update_data(data_dict=data)
         self.base.save()
 
@@ -47,7 +46,6 @@ class CharacterManagement(object):
             contribution = form_json['contribution']
             gold_medal = form_json['gold_medal']
             job_ids = form_json['jobs']
-            hash_form = hash_form
 
             self.base.member = self.user
             self.base.ign = ign
@@ -55,8 +53,7 @@ class CharacterManagement(object):
             self.base.contribution = contribution
             self.base.gold_medal = gold_medal
 
-            data = dict()
-            data['hash_form'] = hash_form
+            data = self.__get_data(form_json, ['hash_form'])
             self.base.update_data(data_dict=data)
             self.base.save()
 

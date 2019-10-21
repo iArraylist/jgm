@@ -26,3 +26,8 @@ class RequestManagement(object):
         return self.request.user
 
 
+def get_data(form_json, key_list):
+    data = dict()
+    for key in key_list:
+        data[key] = form_json[key]
+    return data

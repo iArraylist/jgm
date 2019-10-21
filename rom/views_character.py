@@ -8,7 +8,8 @@ from jgm.services.request_management import RequestManagement
 from rom.services.character_management import CharacterManagement
 from rom.form_character import CharacterForm
 from rom.models import Job
-import json, hashlib
+import json
+import hashlib
 
 
 @login_required()

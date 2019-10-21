@@ -1,13 +1,13 @@
 {% extends 'base.html' %}]
 {% load rom_extras %}
 
-{% block title %} Home {% endblock %}
+{% block title %} Character Info {% endblock %}
 {% block content %}
 
 <div class="col-lg-6">
     <div class="card card-outline-secondary">
         <div class="card-header">
-            <h3 class="mb-0">User Information</h3>
+            <h3 class="mb-0">Character Information</h3>
         </div>
         <div class="card-body">
             <form action="{{ submit_url }}" method="post">
@@ -20,29 +20,65 @@
                     </button>
                 </div>
                 {% endif %}
+                {% if form.ign.errors %}
+                {% for error in form.ign.errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <small><strong>{{ error|escape }}</strong></small>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+                {% endif %}
                 <div class="form-group row">
-                    {{ form.ign.errors }}
                     <label class="col-lg-3 col-form-label form-control-label" for="{{ form.ign.id_ign }}">{{ form.ign.label }}</label>
                     <div class="col-lg-9">
                         {{ form.ign }}
                     </div>
                 </div>
+                {% if form.base_level.errors %}
+                {% for error in form.base_level.errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <small><strong>{{ error|escape }}</strong></small>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+                {% endif %}
                 <div class="form-group row">
-                    {{ form.base_level.errors }}
                     <label class="col-lg-3 col-form-label form-control-label" for="{{ form.base_level.id_base_level }}">{{ form.base_level.label }}</label>
                     <div class="col-lg-9">
                         {{ form.base_level }}
                     </div>
                 </div>
+                {% if form.contribution.errors %}
+                {% for error in form.contribution.errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <small><strong>{{ error|escape }}</strong></small>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+                {% endif %}
                 <div class="form-group row">
-                    {{ form.contribution.errors }}
                     <label class="col-lg-3 col-form-label form-control-label" for="{{ form.contribution.id_contribution }}">{{ form.contribution.label }}</label>
                     <div class="col-lg-9">
                         {{ form.contribution }}
                     </div>
                 </div>
+                {% if form.gold_medal.errors %}
+                {% for error in form.gold_medal.errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <small><strong>{{ error|escape }}</strong></small>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+                {% endif %}
                 <div class="form-group row">
-                    {{ form.gold_medal.errors }}
                     <label class="col-lg-3 col-form-label form-control-label" for="{{ form.gold_medal.id_gold_medal }}">{{ form.gold_medal.label }}</label>
                     <div class="col-lg-9">
                         {{ form.gold_medal }}
@@ -63,7 +99,8 @@
                     <div class="col-lg-9">
                         {% for pk, choice in form.jobs.field.widget.choices %}
                         <div class="custom-control custom-checkbox">
-                            <input class="custom-control-input" type="checkbox" name="{{ form.jobs.name }}" value="{{ pk }}" id="id_jobs_{{ forloop.counter0 }}" img_id="id_img_jobs_{{ forloop.counter0 }}" onchange="cb_change(this)"
+                            <input class="custom-control-input" type="checkbox" name="{{ form.jobs.name }}" value="{{ pk }}" id="id_jobs_{{ forloop.counter0 }}"
+                                   img_id="id_img_jobs_{{ forloop.counter0 }}" onchange="cb_change(this)"
                                    {% if pk in job_ids %} checked {% endif %}>
                             <label class="custom-control-label" for="id_jobs_{{ forloop.counter0 }}">
                                 <img src="{{ job_images|get_item:pk }}" width="30" height="30" id="id_img_jobs_{{ forloop.counter0 }}"
@@ -97,5 +134,10 @@
             img = document.getElementById(e.getAttribute('img_id')).setAttribute("class", "grayscale");
         }
     };
+
+
+
+
+
 </script>
 {% endblock %}
