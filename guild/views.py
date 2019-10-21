@@ -31,6 +31,17 @@ def create(request, base_id):
 
 
 @login_required()
-def join(request, invite_code):
-    pass
+def join_landing(request, invite_code):
+    rm = RequestManagement(request)
+    chm = CharacterManagement(rm.get_user())
+    bases = chm.get_bases(filter_list=['join_guild'])
 
+    context = dict()
+    context['bases'] = bases
+    context['invite_code'] = invite_code
+    return render(request, 'guild/join.html', context=context)
+
+
+@login_required()
+def join(request, base_id, invite_code):
+    return redirect('rom_home')

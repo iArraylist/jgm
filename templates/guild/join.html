@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %} Home {% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-sm-12 mt-2 text-center">
+        {% for base in bases %}
+        <span>{{ base.ign }}</span>
+        <a href="{% url 'guild_join' base.id invite_code %}" class="btn btn-success">Join</a>
+        <hr>
+        {% endfor %}
+    </div>
+    <div class="col-sm-12 mt-2 text-center">
+        <a href="{% url 'rom_character_create' %}" class="btn btn-success">Create Character</a>
+    </div>
+</div>
+{% endblock %}

@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 
 from rom.models import CharacterBase, CharacterJob
 from rom.form_character import CharacterForm
-from jgm.services.request_management import get_data
 
 
 class CharacterManagement(object):
@@ -32,7 +31,8 @@ class CharacterManagement(object):
             gold_medal=gold_medal,
         )
 
-        data = get_data(form_json, ['hash_form'])
+        data = dict()
+        data['hash_form'] = hash_form
         self.base.update_data(data_dict=data)
         self.base.save()
 
@@ -53,7 +53,8 @@ class CharacterManagement(object):
             self.base.contribution = contribution
             self.base.gold_medal = gold_medal
 
-            data = self.__get_data(form_json, ['hash_form'])
+            data = dict()
+            data['hash_form'] = hash_form
             self.base.update_data(data_dict=data)
             self.base.save()
 
@@ -93,9 +94,14 @@ class CharacterManagement(object):
         else:
             raise Exception("Please init CharacterManagement with base_id")
 
-    def get_bases(self):
+    def get_bases(self, filter_list=[]):
         bases = list()
         bases_obj = self.user.bases.all()
+
+        for f in filter_list:
+            if f == 'join_guild':
+                bases_obj = bases_obj.filter(guild__isnull=True)
+
         for b in bases_obj:
             bases.append(self.__base_dto(b))
         return bases
@@ -130,6 +136,7 @@ class CharacterManagement(object):
             guild['guild_id'] = guild_obj.id
             guild['guild_name'] = guild_obj.name
             guild['guild_image'] = guild_obj.image
+            guild['invite_code'] = guild_obj.invite_code
             guild['guild_data'] = guild_obj.get_data_json()
         else:
             guild = None
