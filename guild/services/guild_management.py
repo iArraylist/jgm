@@ -43,3 +43,10 @@ class GuildCreateManagement(object):
         form = GuildCreateForm(initial=initial)
         return form
 
+
+class GuildManagemant(object):
+    def __init__(self, invite_code):
+        try:
+            self.guild = Guild.objects.get(invite_code=invite_code)
+        except Guild.DoesNotExist:
+            raise Exception("%s DoesNotExist" % invite_code)
