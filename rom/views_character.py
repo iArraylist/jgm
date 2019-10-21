@@ -22,11 +22,7 @@ def create(request):
             dmp = json.dumps(form_json)
             hash_form = hashlib.md5(dmp.encode("utf-8")).hexdigest()
             chm = CharacterManagement(rm.get_user())
-            chm.push_base(ign=form_json['ign'],
-                          base_level=form_json['base_level'],
-                          contribution=form_json['contribution'],
-                          gold_medal=form_json['gold_medal'],
-                          job_ids=form_json['jobs'],
+            chm.push_base(form_json=form_json,
                           hash_form=hash_form)
             return redirect('rom_home')
     else:
@@ -56,6 +52,8 @@ def edit(request, base_id):
             hash_form = hashlib.md5(dmp.encode("utf-8")).hexdigest()
             hash_form_old = chm.get_hash_form()
             if hash_form != hash_form_old:
+                chm.update_base(form_json=form_json,
+                                hash_form=hash_form)
                 return redirect('rom_home')
             error_change = "Please, update your character info."
     else:

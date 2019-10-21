@@ -12,6 +12,14 @@
         <div class="card-body">
             <form action="{{ submit_url }}" method="post">
                 {% csrf_token %}
+                {% if error_change %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <small><strong>{{ error_change }}</strong></small>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endif %}
                 <div class="form-group row">
                     {{ form.ign.errors }}
                     <label class="col-lg-3 col-form-label form-control-label" for="{{ form.ign.id_ign }}">{{ form.ign.label }}</label>
@@ -56,24 +64,16 @@
                         {% for pk, choice in form.jobs.field.widget.choices %}
                         <div class="custom-control custom-checkbox">
                             <input class="custom-control-input" type="checkbox" name="{{ form.jobs.name }}" value="{{ pk }}" id="id_jobs_{{ forloop.counter0 }}" img_id="id_img_jobs_{{ forloop.counter0 }}" onchange="cb_change(this)"
-                                   {% for job_id in job_ids %}{% if job_id == pk %} checked {% endif %}{% endfor %}>
+                                   {% if pk in job_ids %} checked {% endif %}>
                             <label class="custom-control-label" for="id_jobs_{{ forloop.counter0 }}">
                                 <img src="{{ job_images|get_item:pk }}" width="30" height="30" id="id_img_jobs_{{ forloop.counter0 }}"
-                                     {% for job_id in job_ids %}{% if job_id != pk %} class="grayscale" {% endif %}{% endfor %}>
+                                     {% if pk not in job_ids %} class="grayscale" {% endif %}>
                                 {{ choice }}
                             </label>
                         </div>
                         {% endfor %}
                     </div>
                 </div>
-                {% if error_change %}
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <small><strong>{{ error_change }}</strong></small>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {% endif %}
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label"></label>
                     <div class="col-lg-9">

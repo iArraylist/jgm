@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.core.exceptions import ObjectDoesNotExist
 from rom.models import CharacterBase, CharacterJob, Job
 from rom.form_character import CharacterForm
 
@@ -17,7 +16,14 @@ class CharacterManagement(object):
         else:
             self.base = None
 
-    def push_base(self, ign, base_level, contribution, gold_medal, job_ids, hash_form):
+    def push_base(self, form_json, hash_form):
+        ign = form_json['ign']
+        base_level = form_json['base_level']
+        contribution = form_json['contribution']
+        gold_medal = form_json['gold_medal']
+        job_ids = form_json['jobs']
+        hash_form = hash_form
+
         self.base = CharacterBase(
             member=self.user,
             ign=ign,
@@ -25,28 +31,64 @@ class CharacterManagement(object):
             contribution=contribution,
             gold_medal=gold_medal,
         )
+
         data = dict()
         data['hash_form'] = hash_form
         self.base.update_data(data_dict=data)
         self.base.save()
 
-        for job_id in job_ids:
-            self.push_job(
-                job_id=job_id,
-            )
+        self.__push_jobs(job_ids=job_ids)
         return self.base
 
-    def push_job(self, job_id):
+    def update_base(self, form_json, hash_form):
         if self.base is not None:
-            if not self.base.check_job(job_id=job_id):
-                job = CharacterJob(
-                    base=self.base,
-                    job_id=job_id,
-                )
-                job.save()
-                return job
+            ign = form_json['ign']
+            base_level = form_json['base_level']
+            contribution = form_json['contribution']
+            gold_medal = form_json['gold_medal']
+            job_ids = form_json['jobs']
+            hash_form = hash_form
+
+            self.base.member = self.user
+            self.base.ign = ign
+            self.base.base_level = base_level
+            self.base.contribution = contribution
+            self.base.gold_medal = gold_medal
+
+            data = dict()
+            data['hash_form'] = hash_form
+            self.base.update_data(data_dict=data)
+            self.base.save()
+
+            self.__push_jobs(job_ids=job_ids)
+            return self.base
         else:
             raise Exception("Please init CharacterManagement with base_id")
+
+    def __push_jobs(self, job_ids):
+        job_ids = [int(job_id) for job_id in job_ids]
+        if self.base is not None:
+            job_ids_old = [[job_ch.job.pk, job_ch] for job_ch in self.base.jobs.all()]
+
+            for job_id_old, job_ch in job_ids_old:
+                if job_id_old not in job_ids:
+                    job_ch.delete()
+
+            for job_id in job_ids:
+                self.__push_job(
+                    job_id=job_id,
+                )
+        else:
+            raise Exception("Please init CharacterManagement with base_id")
+
+    def __push_job(self, job_id):
+        if not self.base.check_job(job_id=job_id):
+            job = CharacterJob(
+                base=self.base,
+                job_id=job_id,
+            )
+            job.save()
+            return job
 
     def get_base(self):
         if self.base is not None:
@@ -56,7 +98,7 @@ class CharacterManagement(object):
 
     def get_bases(self):
         bases = list()
-        bases_obj = CharacterBase.objects.filter(member=self.user)
+        bases_obj = self.user.bases.all()
         for b in bases_obj:
             bases.append(self.__base_dto(b))
         return bases
@@ -70,9 +112,9 @@ class CharacterManagement(object):
         base_dto['contribution'] = base.contribution
         base_dto['gold_medal'] = base.gold_medal
 
-        jobs_obj = base.get_jobs()
+        jobs_ch = base.jobs.all()
         jobs = []
-        for j in jobs_obj:
+        for j in jobs_ch:
             job = dict()
             job['id'] = j.pk
             job['job_id'] = j.job.pk
@@ -82,7 +124,10 @@ class CharacterManagement(object):
 
         base_dto['jobs'] = jobs
 
-        guild_obj = base.get_guild()
+        guild_m = base.guild.first()
+        guild_obj = None
+        if guild_m:
+            guild_obj = guild_m.guild
         if guild_obj is not None:
             guild = dict()
             guild['guild_id'] = guild_obj.id

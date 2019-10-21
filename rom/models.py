@@ -18,7 +18,7 @@ class Job(models.Model):
 
 
 class CharacterBase(models.Model):
-    member = models.ForeignKey('auth.User', db_index=True)
+    member = models.ForeignKey('auth.User', db_index=True, related_name='bases', related_query_name='base')
     ign = models.CharField(max_length=255, db_index=True)
     base_level = models.PositiveSmallIntegerField(default=1, db_index=True)
     contribution = models.PositiveIntegerField(default=0, db_index=True)
@@ -29,19 +29,9 @@ class CharacterBase(models.Model):
     data = models.TextField(default='null')
 
     def check_job(self, job_id):
-        if CharacterJob.objects.filter(base=self, job_id=job_id).exists():
+        if self.jobs.filter(job_id=job_id).exists():
             return True
         return False
-
-    def get_jobs(self):
-        return CharacterJob.objects.filter(base=self)
-
-    def get_guild(self):
-        try:
-            guild_mem = GuildMember.objects.get(character=self)
-            return guild_mem.guild
-        except GuildMember.DoesNotExist:
-            return None
 
     def get_data_json(self, key=None, default=None):
         try:
@@ -66,10 +56,13 @@ class CharacterBase(models.Model):
 
 
 class CharacterJob(models.Model):
-    base = models.ForeignKey('rom.CharacterBase', db_index=True)
+    base = models.ForeignKey('rom.CharacterBase', db_index=True, related_name='jobs', related_query_name='job')
     job = models.ForeignKey('rom.Job', db_index=True)
     image = models.ImageField(upload_to='rom/character/', blank=True, null=True, default=None)
     status = models.IntegerField(choices=CHARACTER_STATUS, db_index=True, default=1)
     create_timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = (("base", "job"),)
 
 
