@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.core.exceptions import ObjectDoesNotExist
 from rom.models import CharacterBase, CharacterJob, Job
+from rom.form_character import CharacterForm
 
 
 class CharacterManagement(object):
@@ -12,19 +13,21 @@ class CharacterManagement(object):
             try:
                 self.base = CharacterBase.objects.get(pk=base_id, member=self.user)
             except CharacterBase.DoesNotExist:
-                pass
+                raise Exception("%s DoesNotExist" % base_id)
         else:
             self.base = None
 
-    def push_base(self, ign, base_level, contribution, gold_medal, job_ids):
-        base = CharacterBase(
+    def push_base(self, ign, base_level, contribution, gold_medal, job_ids, hash_form):
+        self.base = CharacterBase(
             member=self.user,
             ign=ign,
             base_level=base_level,
             contribution=contribution,
             gold_medal=gold_medal,
         )
-
+        data = dict()
+        data['hash_form'] = hash_form
+        self.base.update_data(data_dict=data)
         self.base.save()
 
         for job_id in job_ids:
@@ -91,3 +94,28 @@ class CharacterManagement(object):
         base_dto['guild'] = guild
 
         return base_dto
+
+    def get_form_base(self):
+        if self.base is not None:
+            return self.__generate_form()
+        else:
+            raise Exception("Please init CharacterManagement with base_id")
+
+    def __generate_form(self):
+        base_dto = self.get_base()
+
+        initial = dict()
+        initial['ign'] = base_dto['ign']
+        initial['base_level'] = base_dto['base_level']
+        initial['contribution'] = base_dto['contribution']
+        initial['gold_medal'] = base_dto['gold_medal']
+        job_ids = list()
+        for job in base_dto['jobs']:
+            job_ids.append(job['job_id'])
+        initial['jobs'] = job_ids
+
+        form = CharacterForm(initial=initial)
+        return form
+
+    def get_hash_form(self):
+        return self.base.get_data_json('hash_form')

@@ -8,6 +8,7 @@ from jgm.services.request_management import RequestManagement
 from rom.services.character_management import CharacterManagement
 from rom.form_character import CharacterForm
 from rom.models import Job
+import json, hashlib
 
 
 @login_required()
@@ -18,13 +19,15 @@ def create(request):
         form = CharacterForm(request.POST)
         if form.is_valid():
             form_json = form.cleaned_data
-            print form_json
+            dmp = json.dumps(form_json)
+            hash_form = hashlib.md5(dmp.encode("utf-8")).hexdigest()
             chm = CharacterManagement(rm.get_user())
             chm.push_base(ign=form_json['ign'],
                           base_level=form_json['base_level'],
                           contribution=form_json['contribution'],
                           gold_medal=form_json['gold_medal'],
-                          job_ids=form_json['jobs'])
+                          job_ids=form_json['jobs'],
+                          hash_form=hash_form)
             return redirect('rom_home')
     else:
         form = CharacterForm()
@@ -41,11 +44,30 @@ def create(request):
 @login_required()
 def edit(request, base_id):
     rm = RequestManagement(request)
+    error_change = None
 
-    if rm.is_method_get():
-        context = dict()
-        context['submit_url'] = reverse('rom_character_edit', args=[base_id])
-        return render(request, 'character.html', context=context)
-    elif rm.is_method_post():
-        chm = CharacterManagement(rm.get_user(), base_id=base_id)
+    chm = CharacterManagement(rm.get_user(), base_id=base_id)
+
+    if rm.is_method_post():
+        form = CharacterForm(request.POST)
+        if form.is_valid():
+            form_json = form.cleaned_data
+            dmp = json.dumps(form_json)
+            hash_form = hashlib.md5(dmp.encode("utf-8")).hexdigest()
+            hash_form_old = chm.get_hash_form()
+            if hash_form != hash_form_old:
+                return redirect('rom_home')
+            error_change = "Please, update your character info."
+    else:
+        form = chm.get_form_base()
+
+    job_images = {job.pk: job.image.url for job in Job.objects.all()}
+
+    context = dict()
+    context['submit_url'] = reverse('rom_character_edit', args=[base_id])
+    context['form'] = form
+    context['job_images'] = job_images
+    context['job_ids'] = [job['job_id'] for job in chm.get_base()['jobs']]
+    context['error_change'] = error_change
+    return render(request, 'character.html', context=context)
 
