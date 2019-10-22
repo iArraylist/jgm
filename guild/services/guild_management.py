@@ -3,17 +3,14 @@ from __future__ import unicode_literals
 
 from rom.models import CharacterBase
 from guild.form_guild import GuildCreateForm
-from guild.models import Guild, GuildMember
+from guild.models import Guild, GuildMember, WaitingApprove
 from jgm.services.request_management import get_data
 
 
 class GuildCreateManagement(object):
-    def __init__(self, user, base_id):
+    def __init__(self, user, base):
         self.user = user
-        try:
-            self.base = CharacterBase.objects.get(pk=base_id, member=self.user)
-        except CharacterBase.DoesNotExist:
-            raise Exception('%s DoesNotExist' % base_id)
+        self.base = base
         guild_m = self.base.guild.first()
         if guild_m:
             raise Exception('%s already join %s' % (self.base.ign, guild_m.guild.name))
@@ -42,9 +39,25 @@ class GuildCreateManagement(object):
         return form
 
 
-class GuildManagemant(object):
-    def __init__(self, invite_code):
+class GuildManagement(object):
+    def __init__(self, user, invite_code):
+        self.user = user
         try:
             self.guild = Guild.objects.get(invite_code=invite_code)
         except Guild.DoesNotExist:
             raise Exception("%s DoesNotExist" % invite_code)
+
+    def get_guild(self):
+        guild = dict()
+        guild['id'] = self.guild.pk
+        guild['name'] = self.guild.name
+        guild['data'] = self.guild.get_data_json()
+        return guild
+
+    def join_waiting(self, base):
+        waiting = WaitingApprove(
+            guild=self.guild,
+            character=base
+        )
+        waiting.save()
+        return waiting

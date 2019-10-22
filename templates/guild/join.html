@@ -5,7 +5,11 @@
     <div class="col-sm-12 mt-2 text-center">
         {% for base in bases %}
         <span>{{ base.ign }}</span>
-        <a href="{% url 'guild_join' base.id invite_code %}" class="btn btn-success">Join</a>
+            {% if not base.waiting %}
+            <a href="{% url 'guild_join' base.id invite_code %}" class="btn btn-success">Join</a>
+            {% else %}
+            <a href="#" class="btn btn-secondary">Cancel</a>
+            {% endif %}
         <hr>
         {% endfor %}
     </div>

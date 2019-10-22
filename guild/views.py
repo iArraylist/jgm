@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from jgm.services.request_management import RequestManagement
-from guild.services.guild_management import GuildCreateManagement
+from guild.services.guild_management import GuildCreateManagement, GuildManagement
 from guild.form_guild import GuildCreateForm
 from rom.services.character_management import CharacterManagement
 
@@ -13,7 +13,8 @@ from rom.services.character_management import CharacterManagement
 @login_required
 def create(request, base_id):
     rm = RequestManagement(request)
-    gcm = GuildCreateManagement(rm.get_user(), base_id=base_id)
+    chm = CharacterManagement(rm.get_user(), base_id=base_id)
+    gcm = GuildCreateManagement(rm.get_user(), base=chm.base)
     if rm.is_method_post():
         form = GuildCreateForm(request.POST)
         print form
@@ -34,7 +35,8 @@ def create(request, base_id):
 def join_landing(request, invite_code):
     rm = RequestManagement(request)
     chm = CharacterManagement(rm.get_user())
-    bases = chm.get_bases(filter_list=['join_guild'])
+    gm = GuildManagement(rm.get_user(), invite_code=invite_code)
+    bases = chm.get_bases(filter_list=[('join_guild', gm.guild)])
 
     context = dict()
     context['bases'] = bases
@@ -44,4 +46,8 @@ def join_landing(request, invite_code):
 
 @login_required()
 def join(request, base_id, invite_code):
+    rm = RequestManagement(request)
+    chm = CharacterManagement(rm.get_user(), base_id=base_id)
+    gm = GuildManagement(rm.get_user(), invite_code=invite_code)
+    gm.join_waiting(base=chm.base)
     return redirect('rom_home')

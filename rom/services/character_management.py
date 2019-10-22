@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from rom.models import CharacterBase, CharacterJob
 from rom.form_character import CharacterForm
+from django.db.models import Q
 
 
 class CharacterManagement(object):
@@ -98,9 +99,9 @@ class CharacterManagement(object):
         bases = list()
         bases_obj = self.user.bases.all()
 
-        for f in filter_list:
+        for f, v in filter_list:
             if f == 'join_guild':
-                bases_obj = bases_obj.filter(guild__isnull=True)
+                bases_obj = bases_obj.filter(Q(waiting__guild=v) | Q(waiting__isnull=True), guild__isnull=True)
 
         for b in bases_obj:
             bases.append(self.__base_dto(b))
@@ -133,7 +134,7 @@ class CharacterManagement(object):
             guild_obj = guild_m.guild
         if guild_obj is not None:
             guild = dict()
-            guild['guild_id'] = guild_obj.id
+            guild['guild_id'] = guild_obj.pk
             guild['guild_name'] = guild_obj.name
             guild['guild_image'] = guild_obj.image
             guild['invite_code'] = guild_obj.invite_code
@@ -141,6 +142,21 @@ class CharacterManagement(object):
         else:
             guild = None
         base_dto['guild'] = guild
+
+        waiting_approve = base.waiting.first()
+        w_guild_obj = None
+        if waiting_approve:
+            w_guild_obj = waiting_approve.guild
+        if w_guild_obj is not None:
+            waiting = dict()
+            waiting['guild_id'] = w_guild_obj.pk
+            waiting['guild_name'] = w_guild_obj.name
+            waiting['guild_image'] = w_guild_obj.image
+            waiting['invite_code'] = w_guild_obj.invite_code
+            waiting['guild_data'] = w_guild_obj.get_data_json()
+        else:
+            waiting = None
+        base_dto['waiting'] = waiting
 
         return base_dto
 

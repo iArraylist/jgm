@@ -14,5 +14,11 @@ class GuildMemberAdmin(admin.ModelAdmin):
     list_filter = ('guild',)
 
 
+class WaitingApproveAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'guild', 'character')
+    list_filter = ('guild',)
+
+
 admin.site.register(Guild, GuildAdmin)
 admin.site.register(GuildMember, GuildMemberAdmin)
+admin.site.register(WaitingApprove, WaitingApproveAdmin)

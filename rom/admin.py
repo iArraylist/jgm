@@ -19,7 +19,7 @@ class CharacterJobAdmin(admin.ModelAdmin):
 
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('member', 'line_contact')
+    list_display = ('pk', 'member', 'line_contact')
 
 
 admin.site.register(Job, JobAdmin)
