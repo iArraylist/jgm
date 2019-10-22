@@ -10,7 +10,7 @@ from guild.form_guild import GuildCreateForm
 from rom.services.character_management import CharacterManagement
 
 
-@login_required()
+@login_required
 def create(request, base_id):
     rm = RequestManagement(request)
     gcm = GuildCreateManagement(rm.get_user(), base_id=base_id)
@@ -30,7 +30,7 @@ def create(request, base_id):
     return render(request, 'guild/create.html', context=context)
 
 
-@login_required()
+@login_required
 def join_landing(request, invite_code):
     rm = RequestManagement(request)
     chm = CharacterManagement(rm.get_user())

@@ -58,5 +58,4 @@ class Guild(models.Model):
 class GuildMember(models.Model):
     guild = models.ForeignKey('guild.Guild', db_index=True, related_name='members', related_query_name='member')
     character = models.ForeignKey('rom.CharacterBase', db_index=True, related_name='guild', related_query_name='guild')
-    line_contact = models.CharField(max_length=50)
     role = models.IntegerField(choices=MEMBER_ROLE, db_index=True)

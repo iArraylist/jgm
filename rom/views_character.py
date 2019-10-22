@@ -12,7 +12,7 @@ import json
 import hashlib
 
 
-@login_required()
+@login_required
 def create(request):
     rm = RequestManagement(request)
 
@@ -38,7 +38,7 @@ def create(request):
     return render(request, 'character.html', context=context)
 
 
-@login_required()
+@login_required
 def edit(request, base_id):
     rm = RequestManagement(request)
     error_change = None

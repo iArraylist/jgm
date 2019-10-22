@@ -18,6 +18,8 @@ urlpatterns = [
     url(r'^character/(\d+)/guild/create/$', guild_views.create, name='guild_create'),
     url(r'^character/(\d+)/guild/join/(\w+)/$', guild_views.join, name='guild_join'),
     url(r'^join/(\w+)/$', guild_views.join_landing, name='guild_join_landing'),
+
+    url(r'profile/save/$', rom_views.profile_save, name='profile_save')
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

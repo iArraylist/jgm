@@ -20,7 +20,6 @@ class GuildCreateManagement(object):
 
     def push(self, form_json):
         name = form_json['name']
-        line_contact = form_json['line_contact']
         guild = Guild(name=name,
                       invite_code=None)
         data = get_data(form_json, ['discord_link'])
@@ -30,7 +29,6 @@ class GuildCreateManagement(object):
         guild_member = GuildMember(
             guild=guild,
             character=self.base,
-            line_contact=line_contact,
             role=0)
         guild_member.save()
 

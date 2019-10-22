@@ -66,3 +66,6 @@ class CharacterJob(models.Model):
         unique_together = (('base', 'job'),)
 
 
+class Profile(models.Model):
+    member = models.ForeignKey('auth.User', db_index=True, related_name='profiles', related_query_name='profile')
+    line_contact = models.CharField(max_length=50)

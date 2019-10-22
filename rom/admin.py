@@ -18,6 +18,11 @@ class CharacterJobAdmin(admin.ModelAdmin):
     list_filter = ('job', )
 
 
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('member', 'line_contact')
+
+
 admin.site.register(Job, JobAdmin)
 admin.site.register(CharacterBase, CharacterBaseAdmin)
 admin.site.register(CharacterJob, CharacterJobAdmin)
+admin.site.register(Profile, ProfileAdmin)
