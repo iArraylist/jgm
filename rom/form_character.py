@@ -21,7 +21,7 @@ class CharacterForm(forms.Form):
     jobs = forms.MultipleChoiceField(label='Jobs', required=True, widget=forms.CheckboxSelectMultiple, choices=JOB_CHOICES)
 
 
-class CharacterWGForm(forms.Form):
+class CharacterWGForm(CharacterForm):
     woe_job = forms.IntegerField(label='WOE', required=True,
                                  widget=forms.Select())
     woc_job = forms.IntegerField(label='WOC', required=True,

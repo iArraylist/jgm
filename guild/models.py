@@ -11,10 +11,11 @@ MEMBER_ROLE = (
 )
 
 WAR_JOB = (
-    (0, 'WOE'),
-    (1, 'WOC'),
-    (2, 'ZONE')
+    (0, 'woe'),
+    (1, 'woc'),
+    (2, 'zone')
 )
+
 
 class Guild(models.Model):
     name = models.CharField(max_length=255)
@@ -74,5 +75,5 @@ class WaitingApprove(models.Model):
 class WarJob(models.Model):
     guild = models.ForeignKey('guild.Guild', db_index=True, related_name='member_war_jobs', related_query_name='member_war_job')
     character = models.ForeignKey('rom.CharacterBase', db_index=True, related_name='guild_war_jobs', related_query_name='guild_war_job')
-    job = models.ForeignKey('rom.Job', db_index=True)
+    job = models.ForeignKey('rom.Job', db_index=True, blank=True, null=True, default=None)
     war = models.IntegerField(choices=WAR_JOB, db_index=True)

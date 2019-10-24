@@ -46,7 +46,7 @@ def edit(request, base_id):
     chm = CharacterManagement(rm.get_user(), base_id=base_id)
 
     if rm.is_method_post():
-        form = CharacterForm(request.POST)
+        form = chm.get_request_form(request)
         if form.is_valid():
             form_json = form.cleaned_data
             dmp = json.dumps(form_json)
@@ -59,16 +59,19 @@ def edit(request, base_id):
             error_change = "Please, update your character info."
     else:
         form = chm.get_form_base()
-        form_wg = CharacterWGForm()
 
     job_images = {job.pk: job.image.url for job in Job.objects.all()}
 
     context = dict()
     context['submit_url'] = reverse('rom_character_edit', args=[base_id])
     context['form'] = form
-    context['form_wg'] = form_wg
     context['job_images'] = job_images
     context['job_ids'] = [job['job_id'] for job in chm.get_base()['jobs']]
+    context['war'] = {
+        'woe_job': chm.get_base().get('guild', {}).get('woe', None),
+        'woc_job': chm.get_base().get('guild', {}).get('woc', None),
+        'zone_job': chm.get_base().get('guild', {}).get('zone', None)
+    }
     context['error_change'] = error_change
     return render(request, 'character.html', context=context)
 

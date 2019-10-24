@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from rom.models import CharacterBase
 from guild.form_guild import GuildCreateForm
-from guild.models import Guild, GuildMember, WaitingApprove
+from guild.models import Guild, GuildMember, WaitingApprove, WAR_JOB, WarJob
 from jgm.services.request_management import get_data
 
 from rom.services.profile_mangement import ProfileManagement
@@ -30,6 +30,13 @@ class GuildCreateManagement(object):
             character=self.base,
             role=0)
         guild_member.save()
+
+        for war_id, war in WAR_JOB:
+            war = WarJob(
+                guild=guild,
+                character=self.base,
+                war=war_id)
+            war.save()
 
     def get_form(self):
         return self.__generate_form()
@@ -70,6 +77,12 @@ class GuildManagement(object):
                 character=base,
                 role=2)
             guild_member.save()
+            for war_id, war in WAR_JOB:
+                war = WarJob(
+                    guild=self.guild,
+                    character=base,
+                    war=war_id)
+                war.save()
             self.guild.waiting_list.filter(character=base).delete()
         else:
             raise Exception("Missing request")

@@ -2,8 +2,9 @@
 from __future__ import unicode_literals
 
 from rom.models import CharacterBase, CharacterJob
-from rom.form_character import CharacterForm
+from rom.form_character import CharacterForm, CharacterWGForm
 from django.db.models import Q
+from guild.models import WAR_JOB
 
 
 class CharacterManagement(object):
@@ -60,6 +61,12 @@ class CharacterManagement(object):
             self.base.save()
 
             self.__push_jobs(job_ids=job_ids)
+            if self.__guild_exists():
+                woe = form_json['woe_job']
+                woc = form_json['woc_job']
+                zone = form_json['zone_job']
+                self.__push_war_job(woe=woe, woc=woc, zone=zone)
+
             return self.base
         else:
             raise Exception("Please init CharacterManagement with base_id")
@@ -88,6 +95,17 @@ class CharacterManagement(object):
             )
             job.save()
             return job
+
+    def __push_war_job(self, woe, woc, zone):
+        war_woe = self.base.guild_war_jobs.filter(war=0).first()
+        war_woe.job = self.base.jobs.get(job_id=woe).job
+        war_woe.save()
+        war_woc = self.base.guild_war_jobs.filter(war=1).first()
+        war_woc.job = self.base.jobs.get(job_id=woc).job
+        war_woc.save()
+        war_zone = self.base.guild_war_jobs.filter(war=2).first()
+        war_zone.job = self.base.jobs.get(job_id=zone).job
+        war_zone.save()
 
     def get_base(self):
         if self.base is not None:
@@ -139,6 +157,11 @@ class CharacterManagement(object):
             guild['guild_image'] = guild_obj.image
             guild['invite_code'] = guild_obj.invite_code
             guild['guild_data'] = guild_obj.get_data_json()
+            for war_id, war in WAR_JOB:
+                if base.guild_war_jobs.filter(war=war_id).first().job:
+                    guild[war] = base.guild_war_jobs.filter(war=war_id).first().job.pk
+                else:
+                    guild[war] = None
         else:
             guild = None
         base_dto['guild'] = guild
@@ -160,8 +183,21 @@ class CharacterManagement(object):
 
         return base_dto
 
+    def __guild_exists(self):
+        return self.base.guild.all().exists()
+
+    def get_request_form(self, request):
+        if self.base is not None:
+            if self.__guild_exists():
+                return CharacterWGForm(request.POST)
+            return CharacterForm(request.POST)
+        else:
+            raise Exception("Please init CharacterManagement with base_id")
+
     def get_form_base(self):
         if self.base is not None:
+            if self.__guild_exists():
+                return self.__generate_form_wg()
             return self.__generate_form()
         else:
             raise Exception("Please init CharacterManagement with base_id")
@@ -180,6 +216,25 @@ class CharacterManagement(object):
         initial['jobs'] = job_ids
 
         form = CharacterForm(initial=initial)
+        return form
+
+    def __generate_form_wg(self):
+        base_dto = self.get_base()
+
+        initial = dict()
+        initial['ign'] = base_dto['ign']
+        initial['base_level'] = base_dto['base_level']
+        initial['contribution'] = base_dto['contribution']
+        initial['gold_medal'] = base_dto['gold_medal']
+        job_ids = list()
+        for job in base_dto['jobs']:
+            job_ids.append(job['job_id'])
+        initial['jobs'] = job_ids
+        initial['woe_job'] = base_dto['guild']['woe']
+        initial['woc_job'] = base_dto['guild']['woc']
+        initial['zone_job'] = base_dto['guild']['zone']
+
+        form = CharacterWGForm(initial=initial)
         return form
 
     def get_hash_form(self):

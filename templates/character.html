@@ -112,82 +112,110 @@
                         {% endfor %}
                     </div>
                 </div>
+                {% if form.woe_job and form.woc_job and form.zone_job %}
+                {% if form.woe_job.errors %}
+                {% for error in form.woe_job.errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <small><strong>{{ error|escape }}</strong></small>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+                {% endif %}
                 <div class="form-group row">
-                    <div class="col-lg-9">
+                    <label class="col-lg-3 col-form-label form-control-label" id="woe_fixable" for="{{ form.woe_job.auto_id }}">{{ form.woe_job.label }}</label>
+                    <div class="col-lg-9 input-group">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="{{ form.woe_job.auto_id }}" id="img_woe_job">
+                                {% for pk, choice in form.jobs.field.widget.choices %}
+                                {% if pk == war.woe_job %}
+                                <img src="{{ job_images|get_item:pk }}" width="24" height="24">
+                                {% endif %}
+                                {% endfor %}
+                            </label>
+                        </div>
+                        <select class="browser-default custom-select" name="{{ form.woe_job.name }}" id="{{ form.woe_job.auto_id }}" onchange="sl_change(this)" lb="img_woe_job">
+                            <option selected>-- Select --</option>
+                            {% for pk, choice in form.jobs.field.widget.choices %}
+                            {% if pk in job_ids %}
+                            <option value="{{ pk }}" {% if pk == war.woe_job %} selected {% endif %}>{{ choice }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                {% if form.woc_job.errors %}
+                {% for error in form.woc_job.errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <small><strong>{{ error|escape }}</strong></small>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+                {% endif %}
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label" id="woc_fixable" for="{{ form.woc_job.auto_id }}">{{ form.woc_job.label }}</label>
+                    <div class="col-lg-9 input-group">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="{{ form.woe_job.auto_id }}" id="img_woc_job">
+                                {% for pk, choice in form.jobs.field.widget.choices %}
+                                {% if pk == war.woc_job %}
+                                <img src="{{ job_images|get_item:pk }}" width="24" height="24">
+                                {% endif %}
+                                {% endfor %}
+                            </label>
+                        </div>
+                        <select class="browser-default custom-select" name="{{ form.woc_job.name }}" id="{{ form.woc_job.auto_id }}" onchange="sl_change(this)" lb="img_woc_job">
+                            <option selected>-- Select --</option>
+                            {% for pk, choice in form.jobs.field.widget.choices %}
+                            {% if pk in job_ids %}
+                            <option value="{{ pk }}" {% if pk == war.woc_job %} selected {% endif %}>{{ choice }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                {% if form.zone_job.errors %}
+                {% for error in form.zone_job.errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <small><strong>{{ error|escape }}</strong></small>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+                {% endif %}
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label" id="zone_fixable" for="{{ form.zone_job.auto_id }}">{{ form.zone_job.label }}</label>
+                    <div class="col-lg-9 input-group">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="{{ form.woe_job.auto_id }}" id="img_zone_job">
+                                {% for pk, choice in form.jobs.field.widget.choices %}
+                                {% if pk == war.zone_job %}
+                                <img src="{{ job_images|get_item:pk }}" width="24" height="24">
+                                {% endif %}
+                                {% endfor %}
+                            </label>
+                        </div>
+                        <select class="browser-default custom-select" name="{{ form.zone_job.name }}" id="{{ form.zone_job.auto_id }}" onchange="sl_change(this)" lb="img_zone_job">
+                            <option selected>-- Select --</option>
+                            {% for pk, choice in form.jobs.field.widget.choices %}
+                            {% if pk in job_ids %}
+                            <option value="{{ pk }}" {% if pk == war.zone_job %} selected {% endif %}>{{ choice }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="form-group row">
+                    <div class="col-lg-3">
                         <a href="{% url 'rom_home' %}" class="btn btn-secondary" role="button">Cancel</a>
                         <input class="btn btn-primary" type="submit" value="Save">
-                    </div>
-                </div>
-
-                {% if form_wg.woe_job.errors %}
-                {% for error in form_wg.woe_job.errors %}
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <small><strong>{{ error|escape }}</strong></small>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {% endfor %}
-                {% endif %}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label" id="woe_fixable" for="{{ form_wg.woe_job.auto_id }}">{{ form_wg.woe_job.label }}</label>
-                    <div class="col-lg-9">
-                        <select class="browser-default custom-select" name="{{ form_wg.woe_job.name }}" id="{{ form_wg.woe_job.auto_id }}">
-                            <option selected>-- Select --</option>
-                            {% for pk, choice in form.jobs.field.widget.choices %}
-                            {% if pk in job_ids %}
-                            <option value="{{ pk }}">{{ choice }}</option>
-                            {% endif %}
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-
-                {% if form_wg.woc_job.errors %}
-                {% for error in form_wg.woc_job.errors %}
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <small><strong>{{ error|escape }}</strong></small>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {% endfor %}
-                {% endif %}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label" id="woc_fixable" for="{{ form_wg.woc_job.auto_id }}">{{ form_wg.woc_job.label }}</label>
-                    <div class="col-lg-9">
-                        <select class="browser-default custom-select" name="{{ form_wg.woc_job.name }}" id="{{ form_wg.woc_job.auto_id }}">
-                            <option selected>-- Select --</option>
-                            {% for pk, choice in form.jobs.field.widget.choices %}
-                            {% if pk in job_ids %}
-                            <option value="{{ pk }}">{{ choice }}</option>
-                            {% endif %}
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-
-                {% if form_wg.zone_job.errors %}
-                {% for error in form_wg.zone_job.errors %}
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <small><strong>{{ error|escape }}</strong></small>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {% endfor %}
-                {% endif %}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label" id="zone_fixable" for="{{ form_wg.zone_job.auto_id }}">{{ form_wg.zone_job.label }}</label>
-                    <div class="col-lg-9">
-                        <select class="browser-default custom-select" name="{{ form_wg.zone_job.name }}" id="{{ form_wg.zone_job.auto_id }}">
-                            <option selected>-- Select --</option>
-                            {% for pk, choice in form.jobs.field.widget.choices %}
-                            {% if pk in job_ids %}
-                            <option value="{{ pk }}">{{ choice }}</option>
-                            {% endif %}
-                            {% endfor %}
-                        </select>
                     </div>
                 </div>
             </form>

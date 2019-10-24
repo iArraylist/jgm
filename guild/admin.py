@@ -19,6 +19,12 @@ class WaitingApproveAdmin(admin.ModelAdmin):
     list_filter = ('guild',)
 
 
+class WarJobAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'guild', 'character', 'job', 'war')
+    list_filter = ('guild', 'job',)
+
+
 admin.site.register(Guild, GuildAdmin)
 admin.site.register(GuildMember, GuildMemberAdmin)
 admin.site.register(WaitingApprove, WaitingApproveAdmin)
+admin.site.register(WarJob, WarJobAdmin)
