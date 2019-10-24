@@ -67,5 +67,5 @@ class CharacterJob(models.Model):
 
 
 class Profile(models.Model):
-    member = models.ForeignKey('auth.User', db_index=True, related_name='profiles', related_query_name='profile')
+    member = models.OneToOneField('auth.User', on_delete=models.CASCADE, primary_key=True)
     line_contact = models.CharField(max_length=50)

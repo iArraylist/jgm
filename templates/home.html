@@ -35,6 +35,7 @@
         </div>
     </div>
 </div>
+<hr>
 <div class="col-lg-6">
     <div class="card card-outline-secondary">
         <div class="card-header">
@@ -46,7 +47,9 @@
                     {% for base in bases %}
                     <a href="{% url 'rom_character_edit' base.id %}">{{ base.ign }}</a>
                     {% if base.guild %}
-                    <a href="{% url 'guild_join_landing' base.guild.invite_code %}">{{ base.guild.guild_name }}</a>
+                    | <a href="{% url 'guild_waiting_list' base.guild.invite_code %}">Request</a>
+                    | <a href="{% url 'guild_member_list' base.guild.invite_code %}">{{ base.guild.guild_name }}</a>
+                    | <a href="{% url 'guild_join_landing' base.guild.invite_code %}">Join link</a>
                     {% else %}
                     <a href="{% url 'guild_create' base.id %}" class="btn btn-success">Create Guild</a>
                     <a href="#" class="btn btn-success">Search Guild</a>
@@ -54,13 +57,14 @@
                     <hr>
                     {% endfor %}
                 </div>
-                <div class="form-group row">
-                    <div class="col-lg-9">
-                        <a href="{% url 'rom_character_create' %}" class="btn btn-success">Create Character</a>
-                    </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-9">
+                    <a href="{% url 'rom_character_create' %}" class="btn btn-success">Create Character</a>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    {% endblock %}
+{% endblock %}

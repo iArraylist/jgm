@@ -44,10 +44,40 @@ def join_landing(request, invite_code):
     return render(request, 'guild/join.html', context=context)
 
 
-@login_required()
+@login_required
 def join(request, base_id, invite_code):
     rm = RequestManagement(request)
     chm = CharacterManagement(rm.get_user(), base_id=base_id)
     gm = GuildManagement(rm.get_user(), invite_code=invite_code)
     gm.join_waiting(base=chm.base)
     return redirect('rom_home')
+
+
+@login_required
+def waiting_list(request, invite_code):
+    rm = RequestManagement(request)
+    gam = GuildManagement(rm.get_user(), invite_code=invite_code, allow_role=[0, 1])
+    bases = gam.get_waiting_list()
+    context = dict()
+    context['bases'] = bases
+    context['invite_code'] = invite_code
+    return render(request, 'guild/waiting_list.html', context=context)
+
+
+@login_required
+def approve(request, invite_code, base_id):
+    rm = RequestManagement(request)
+    gam = GuildManagement(rm.get_user(), invite_code=invite_code, allow_role=[0, 1])
+    gam.approve(base_id=base_id)
+    return redirect('guild_waiting_list', invite_code)
+
+
+@login_required
+def member_list(request, invite_code):
+    rm = RequestManagement(request)
+    gam = GuildManagement(rm.get_user(), invite_code=invite_code, allow_role=[0, 1, 2])
+    bases = gam.get_members()
+    context = dict()
+    context['bases'] = bases
+    context['invite_code'] = invite_code
+    return render(request, 'guild/member_list.html', context=context)

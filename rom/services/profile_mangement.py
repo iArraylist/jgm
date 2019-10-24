@@ -9,7 +9,7 @@ class ProfileManagement(object):
     def __init__(self, user):
         self.user = user
         try:
-            self.profile = Profile.objects.get(member=self.user)
+            self.profile = self.user.profile
         except Profile.DoesNotExist:
             self.profile = Profile(member=self.user)
             self.profile.save()

@@ -14,10 +14,14 @@ urlpatterns = [
 
     url(r'^character/create/$', rom_views_character.create, name='rom_character_create'),
     url(r'^character/(\d+)/$', rom_views_character.edit, name='rom_character_edit'),
-
     url(r'^character/(\d+)/guild/create/$', guild_views.create, name='guild_create'),
     url(r'^character/(\d+)/guild/join/(\w+)/$', guild_views.join, name='guild_join'),
+
     url(r'^join/(\w+)/$', guild_views.join_landing, name='guild_join_landing'),
+
+    url(r'^guild/(\w+)/waiting-list/$', guild_views.waiting_list, name='guild_waiting_list'),
+    url(r'^guild/(\w+)/approve/(\d+)/$', guild_views.approve, name='guild_approve'),
+    url(r'^guild/(\w+)/member-list/$', guild_views.member_list, name='guild_member_list'),
 
     url(r'profile/save/$', rom_views.profile_save, name='profile_save')
 ]

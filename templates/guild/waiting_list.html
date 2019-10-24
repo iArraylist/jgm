@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %} Home {% endblock %}
+{% block content %}
+
+<div class="col-lg-6">
+    <div class="card card-outline-secondary">
+        <div class="card-header">
+            <h3 class="mb-0">Request</h3>
+        </div>
+        <div class="card-body">
+            <div class="form-group row">
+                <div class="col-lg-9">
+                    {% for base in bases %}
+                    <span>{{ base.ign }}</span>
+                    <a href="{% url 'guild_approve' invite_code base.id %}" class="btn btn-success"><i class="fa fa-check"></i></a>
+                    <a href="#" class="btn btn-danger"><i class="fa fa-times"></i></a>
+                    <hr>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
