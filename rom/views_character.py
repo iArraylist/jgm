@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from jgm.services.request_management import RequestManagement
 from rom.services.character_management import CharacterManagement
-from rom.form_character import CharacterForm
+from rom.form_character import CharacterForm, CharacterWGForm
 from rom.models import Job
 import json
 import hashlib
@@ -59,12 +59,14 @@ def edit(request, base_id):
             error_change = "Please, update your character info."
     else:
         form = chm.get_form_base()
+        form_wg = CharacterWGForm()
 
     job_images = {job.pk: job.image.url for job in Job.objects.all()}
 
     context = dict()
     context['submit_url'] = reverse('rom_character_edit', args=[base_id])
     context['form'] = form
+    context['form_wg'] = form_wg
     context['job_images'] = job_images
     context['job_ids'] = [job['job_id'] for job in chm.get_base()['jobs']]
     context['error_change'] = error_change

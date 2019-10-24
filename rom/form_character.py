@@ -6,7 +6,7 @@ from django.conf import settings
 from rom.models import Job
 
 
-job_choices = [[job.pk, job.name] for job in Job.objects.all().order_by('sort')]
+JOB_CHOICES = [[job.pk, job.name] for job in Job.objects.all().order_by('sort')]
 
 
 class CharacterForm(forms.Form):
@@ -18,4 +18,13 @@ class CharacterForm(forms.Form):
                                       widget=forms.NumberInput(attrs={'class': 'form-control'}))
     gold_medal = forms.IntegerField(label='Gold Medal', min_value=0, initial=0, required=True,
                                     widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    jobs = forms.MultipleChoiceField(label='Jobs', required=True, widget=forms.CheckboxSelectMultiple, choices=job_choices)
+    jobs = forms.MultipleChoiceField(label='Jobs', required=True, widget=forms.CheckboxSelectMultiple, choices=JOB_CHOICES)
+
+
+class CharacterWGForm(forms.Form):
+    woe_job = forms.IntegerField(label='WOE', required=True,
+                                 widget=forms.Select())
+    woc_job = forms.IntegerField(label='WOC', required=True,
+                                 widget=forms.Select())
+    zone_job = forms.IntegerField(label='ZONE', required=True,
+                                  widget=forms.Select())
