@@ -3,10 +3,11 @@ from __future__ import unicode_literals
 
 from rom.models import CharacterBase
 from guild.form_guild import GuildCreateForm
-from guild.models import Guild, GuildMember, WaitingApprove, WAR_JOB, WarJob
+from guild.models import Guild, GuildMember, WaitingApprove, WAR_TYPE, WarJob
 from jgm.services.request_management import get_data
 
 from rom.services.profile_mangement import ProfileManagement
+from django.core.exceptions import PermissionDenied
 
 
 class GuildCreateManagement(object):
@@ -31,7 +32,7 @@ class GuildCreateManagement(object):
             role=0)
         guild_member.save()
 
-        for war_id, war in WAR_JOB:
+        for war_id, war in WAR_TYPE:
             war = WarJob(
                 guild=guild,
                 character=self.base,
@@ -60,7 +61,7 @@ class GuildManagement(object):
 
     def __permission(self, allow_role):
         if not self.guild.members.filter(role__in=allow_role, character__member=self.user).exists():
-            raise Exception("Permission denied")
+            raise PermissionDenied
 
     def get_waiting_list(self):
         wa = self.guild.waiting_list.all()
@@ -77,7 +78,7 @@ class GuildManagement(object):
                 character=base,
                 role=2)
             guild_member.save()
-            for war_id, war in WAR_JOB:
+            for war_id, war in WAR_TYPE:
                 war = WarJob(
                     guild=self.guild,
                     character=base,

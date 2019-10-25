@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %} Home {% endblock %}
+{% block content %}
+
+<div class="card text-center">
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" href="#">{{ war.war_name }}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'guild_party_summary' invite_code war.war_type %}">Summary</a>
+      </li>
+    </ul>
+  </div>
+  <div class="card-body">
+      {{ party_list }}
+  </div>
+</div>
+
+{% endblock %}

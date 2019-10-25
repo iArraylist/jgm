@@ -16,6 +16,9 @@ class Job(models.Model):
     image = models.ImageField(upload_to='rom/class/', blank=True, null=True, default=None)
     sort = models.IntegerField(default=0, db_index=True)
 
+    class Meta:
+        ordering = ['sort']
+
 
 class CharacterBase(models.Model):
     member = models.ForeignKey('auth.User', db_index=True, related_name='bases', related_query_name='base')

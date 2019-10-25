@@ -10,7 +10,7 @@ MEMBER_ROLE = (
     (2, 'Guild Member')
 )
 
-WAR_JOB = (
+WAR_TYPE = (
     (0, 'woe'),
     (1, 'woc'),
     (2, 'zone')
@@ -76,4 +76,4 @@ class WarJob(models.Model):
     guild = models.ForeignKey('guild.Guild', db_index=True, related_name='member_war_jobs', related_query_name='member_war_job')
     character = models.ForeignKey('rom.CharacterBase', db_index=True, related_name='guild_war_jobs', related_query_name='guild_war_job')
     job = models.ForeignKey('rom.Job', db_index=True, blank=True, null=True, default=None)
-    war = models.IntegerField(choices=WAR_JOB, db_index=True)
+    war = models.IntegerField(choices=WAR_TYPE, db_index=True)

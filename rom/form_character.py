@@ -6,7 +6,7 @@ from django.conf import settings
 from rom.models import Job
 
 
-JOB_CHOICES = [[job.pk, job.name] for job in Job.objects.all().order_by('sort')]
+JOB_CHOICES = [[job.pk, job.name] for job in Job.objects.all()]
 
 
 class CharacterForm(forms.Form):

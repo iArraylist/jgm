@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from rom.models import CharacterBase, CharacterJob
 from rom.form_character import CharacterForm, CharacterWGForm
 from django.db.models import Q
-from guild.models import WAR_JOB
+from guild.models import WAR_TYPE
 
 
 class CharacterManagement(object):
@@ -157,7 +157,7 @@ class CharacterManagement(object):
             guild['guild_image'] = guild_obj.image
             guild['invite_code'] = guild_obj.invite_code
             guild['guild_data'] = guild_obj.get_data_json()
-            for war_id, war in WAR_JOB:
+            for war_id, war in WAR_TYPE:
                 if base.guild_war_jobs.filter(war=war_id).first().job:
                     guild[war] = base.guild_war_jobs.filter(war=war_id).first().job.pk
                 else:

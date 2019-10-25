@@ -2,6 +2,7 @@ from django.conf.urls import url, include
 from . import views as rom_views, views_character as rom_views_character
 from guild import views as guild_views
 from jgm import views_account as jgm_views_account
+from party import views as party_views
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -22,6 +23,9 @@ urlpatterns = [
     url(r'^guild/(\w+)/waiting-list/$', guild_views.waiting_list, name='guild_waiting_list'),
     url(r'^guild/(\w+)/approve/(\d+)/$', guild_views.approve, name='guild_approve'),
     url(r'^guild/(\w+)/member-list/$', guild_views.member_list, name='guild_member_list'),
+
+    url(r'^guild/(\w+)/party/(\w+)/$', party_views.party_list, name='guild_party_list'),
+    url(r'^guild/(\w+)/party/(\w+)/summary/$', party_views.party_summary, name='guild_party_summary'),
 
     url(r'profile/save/$', rom_views.profile_save, name='profile_save')
 ]

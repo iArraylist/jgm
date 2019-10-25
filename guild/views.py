@@ -81,3 +81,4 @@ def member_list(request, invite_code):
     context['bases'] = bases
     context['invite_code'] = invite_code
     return render(request, 'guild/member_list.html', context=context)
+
