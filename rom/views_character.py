@@ -57,6 +57,7 @@ def edit(request, base_id):
                                 hash_form=hash_form)
                 return redirect('rom_home')
             error_change = "Please, update your character info."
+        print form.errors.as_json()
     else:
         form = chm.get_form_base()
 
