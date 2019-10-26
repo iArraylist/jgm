@@ -6,11 +6,11 @@ from party.models import *
 
 
 class PartyAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'guild')
+    list_display = ('pk', 'guild', 'war', 'name', 'sort')
 
 
 class PartyMemberAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'party')
+    list_display = ('pk', 'party', 'war_job', 'sort')
 
 
 admin.site.register(Party, PartyAdmin)

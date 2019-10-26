@@ -18,19 +18,25 @@ class Party(object):
         for p in party_list_q:
             members = p.members.all()
             party = dict()
-            party_data = p.get_data_json()
-            party['name'] = party_data['name']
+            party['id'] = p.pk
+            party['name'] = p.name
+            party['data'] = p.get_data_json()
             party['member'] = list()
             for m in members:
                 member = dict()
                 try:
+                    war_job_id = m.war_job.pk
                     ign = m.war_job.character.ign
-                    job_name = m.war_job.job.name
+                    job_id = m.war_job.job.pk
                 except AttributeError:
+                    war_job_id = None
                     ign = None
-                    job_name = None
+                    job_id = None
+                member['id'] = m.pk
+                member['data'] = m.get_data_json()
+                member['war_job_id'] = war_job_id
                 member['name'] = ign
-                member['job'] = job_name
+                member['job_id'] = job_id
                 party['member'].append(member)
             party_list.append(party)
         return party_list

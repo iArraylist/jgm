@@ -6,6 +6,8 @@ from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from jgm.services.request_management import RequestManagement
 from party.services.party_management import PartyService
+from rom.models import Job
+from rom.views import job_images
 
 
 @login_required
@@ -18,6 +20,8 @@ def party_list(request, invite_code, war_type):
     context['party_list'] = party
     context['war'] = {'war_name': war_name, 'war_type': war_type}
     context['invite_code'] = invite_code
+    context['range'] = range(15)
+    context['job_images'] = job_images
     return render(request, 'party/list.html', context=context)
 
 

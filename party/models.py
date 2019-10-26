@@ -9,12 +9,16 @@ from guild.models import WAR_TYPE
 class Party(models.Model):
     guild = models.ForeignKey('guild.Guild', db_index=True, related_name='party_list', related_query_name='party_list')
     war = models.IntegerField(choices=WAR_TYPE, db_index=True)
+    name = models.CharField(max_length=255)
     data = models.TextField(default='null')
     sort = models.IntegerField(default=0, db_index=True)
 
     class Meta:
         ordering = ['sort']
         unique_together = (('guild', 'war', 'sort'),)
+
+    def __str__(self):
+        return '%s_%s_%s_%s' % (self.guild.name, WAR_TYPE[self.war][1], self.name, self.sort)
 
     def get_data_json(self, key=None, default=None):
         try:

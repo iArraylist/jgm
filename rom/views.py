@@ -7,7 +7,9 @@ from jgm.services.request_management import RequestManagement
 from rom.services.character_management import CharacterManagement
 from rom.services.profile_mangement import ProfileManagement
 from rom.form_profile import ProfileForm
+from rom.models import Job
 
+job_images = {job.pk: job.image.url for job in Job.objects.all()}
 
 @login_required
 def home(request):

@@ -6,10 +6,10 @@ from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from jgm.services.request_management import RequestManagement
 from rom.services.character_management import CharacterManagement
-from rom.form_character import CharacterForm, CharacterWGForm
-from rom.models import Job
+from rom.form_character import CharacterForm
 import json
 import hashlib
+from rom.views import job_images
 
 
 @login_required
@@ -28,8 +28,6 @@ def create(request):
             return redirect('rom_home')
     else:
         form = CharacterForm()
-
-    job_images = {job.pk: job.image.url for job in Job.objects.all()}
 
     context = dict()
     context['submit_url'] = reverse('rom_character_create')
@@ -60,8 +58,6 @@ def edit(request, base_id):
         print form.errors.as_json()
     else:
         form = chm.get_form_base()
-
-    job_images = {job.pk: job.image.url for job in Job.objects.all()}
 
     context = dict()
     context['submit_url'] = reverse('rom_character_edit', args=[base_id])

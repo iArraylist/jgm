@@ -19,6 +19,9 @@ class Job(models.Model):
     class Meta:
         ordering = ['sort']
 
+    def __str__(self):
+        return self.name
+
 
 class CharacterBase(models.Model):
     member = models.ForeignKey('auth.User', db_index=True, related_name='bases', related_query_name='base')
@@ -30,6 +33,9 @@ class CharacterBase(models.Model):
     create_timestamp = models.DateTimeField(auto_now_add=True)
     update_timestamp = models.DateTimeField(auto_now=True)
     data = models.TextField(default='null')
+
+    def __str__(self):
+        return '%s_%s' % (self.member.pk, self.ign)
 
     def check_job(self, job_id):
         if self.jobs.filter(job_id=job_id).exists():
@@ -68,7 +74,14 @@ class CharacterJob(models.Model):
     class Meta:
         unique_together = (('base', 'job'),)
 
+    def __str__(self):
+        return '%s_%s' % (self.base.ign, self.job.name)
+
 
 class Profile(models.Model):
     member = models.OneToOneField('auth.User', on_delete=models.CASCADE, primary_key=True)
     line_contact = models.CharField(max_length=50)
+    nickname = models.CharField(max_length=50)
+
+    def __str__(self):
+        return 'profile_%s' % self.member.pk
