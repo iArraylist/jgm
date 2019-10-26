@@ -20,7 +20,6 @@ def party_list(request, invite_code, war_type):
     context['party_list'] = party
     context['war'] = {'war_name': war_name, 'war_type': war_type}
     context['invite_code'] = invite_code
-    context['range'] = range(15)
     context['job_images'] = job_images
     return render(request, 'party/list.html', context=context)
 

@@ -17,7 +17,6 @@
         </ul>
     </div>
     <div class="card-body row">
-        {% for i in range %}
         {% for party in party_list %}
         <div class="card bg-light border-dark m-3 w-18rem">
             <div class="card-header p-1 px-2">{{ party.name }}</div>
@@ -40,9 +39,7 @@
             <div class="card-footer p-1 px-2"><span class="badge badge-secondary">Remark</span> <small>{{ party.data.remark }}</small></div>
         </div>
         {% endfor %}
-        {% endfor %}
     </div>
 </div>
-<samp>{{ party_list }}</samp>
 
 {% endblock %}
