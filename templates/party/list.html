@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load rom_extras %}
 
 {% block title %} Home {% endblock %}
 {% block content %}
@@ -16,30 +15,26 @@
             </li>
         </ul>
     </div>
-    <div class="card-body row">
+    <div class="card-body row" id="party_card_body">
         {% for party in party_list %}
-        <div class="card bg-light border-dark m-3 w-18rem">
-            <div class="card-header p-1 px-2">{{ party.name }}</div>
-            <div class="card-body p-1 px-2">
-                {% for member in party.member %}
-                <div class="row m-0">
-                    <div class="col-9 p-0">
-                        {% if member.war_job_id %}
-                        <span><img src="{{ job_images|get_item:member.job_id }}" width="25" height="25"> {{ member.name }}</span>
-                        {% else %}
-                        <span>------------</span>
-                        {% endif %}
-                    </div>
-                    <div class="col-3 p-0 text-right">
-                        <i class="fa fa-pencil-square-o"></i>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            <div class="card-footer p-1 px-2"><span class="badge badge-secondary">Remark</span> <small>{{ party.data.remark }}</small></div>
+        <div class="card bg-light border-dark m-3 w-18rem" id="party_{{ party.id }}">
+            {% include 'party/components/party_block.html' %}
         </div>
         {% endfor %}
     </div>
+    <div class="card-footer">
+        <button type="button" class="btn btn-labeled btn-primary">
+            <span class="btn-label"><i class="fa fa-plus"></i></span>Party
+        </button>
+    </div>
 </div>
 
+{% include 'party/components/party_edit_block.html' %}
+
+<script src="{% static 'js/party.js' %}"></script>
+<script>
+$('#myModal').on('shown.bs.modal', function () {
+  $('#myInput').trigger('focus');
+});
+</script>
 {% endblock %}

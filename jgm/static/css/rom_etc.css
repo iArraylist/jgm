@@ -1,8 +1,12 @@
-.grayscale {
-    filter: grayscale(100%);
-}
+.rm-border {border: none;}
 
-.w-18rem {
-    min-width: 15.5rem;
-    max-width: 18rem;
-}
+.grayscale {filter: grayscale(100%);}
+
+.w-18rem {min-width: 15.5rem;max-width: 15.5rem;}
+
+.btn-label {position: relative;left: -12px;display: inline-block;padding: 6px 12px;background: rgba(0,0,0,0.15);border-radius: 3px 0 0 3px;}
+.btn-labeled {padding-top: 0;padding-bottom: 0;}
+.btn { margin-bottom:10px; }
+
+.form-custom-sm {height: calc(1.5em + .5rem + -5px);}
+.input-group>.select-job {flex:0;}
