@@ -3,16 +3,8 @@
 
 <div class="card-header p-1 px-2">
     <div class="row m-0">
-        <div class="col-8 p-0">
+        <div class="col p-0">
             {{ party.name }}
-        </div>
-        <div class="col-4 p-0 text-right">
-            <button class="rm-border" style="background-color: rgba(0,0,0,0);" party-id="party_{{ party.id }}" onclick="party_edit(this)" data-toggle="modal" data-target="#exampleModal">
-                <i class="fa fa-pencil"></i>
-            </button>
-            <button class="rm-border" style="background-color: rgba(0,0,0,0);" party-id="party_{{ party.id }}" onclick="party_remove(this)">
-                <i class="fa fa-trash-o"></i>
-            </button>
         </div>
     </div>
 </div>

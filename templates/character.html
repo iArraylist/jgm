@@ -101,11 +101,9 @@
                         {% for pk, choice in form.jobs.field.widget.choices %}
                         <div class="custom-control custom-checkbox">
                             <input class="custom-control-input" type="checkbox" name="{{ form.jobs.name }}" value="{{ pk }}" id="{{ form.jobs.auto_id }}_{{ forloop.counter0 }}"
-                                   img_id="id_img_jobs_{{ forloop.counter0 }}" text="{{ choice }}" onchange="cb_change(this)"
-                                   {% if pk in job_ids %} checked {% endif %}>
+                                   data-img_id="id_img_jobs_{{ forloop.counter0 }}" data-text="{{ choice }}" onchange="cb_change(this)" {% if pk in job_ids %} checked {% endif %}>
                             <label class="custom-control-label" for="{{ form.jobs.auto_id }}_{{ forloop.counter0 }}">
-                                <img src="{{ job_images|get_item:pk }}" width="30" height="30" id="id_img_jobs_{{ forloop.counter0 }}"
-                                     {% if pk not in job_ids %} class="grayscale" {% endif %}>
+                                <img src="{{ job_images|get_item:pk }}" width="30" height="30" id="id_img_jobs_{{ forloop.counter0 }}" {% if pk not in job_ids %} class="grayscale" {% endif %}>
                                 {{ choice }}
                             </label>
                         </div>
@@ -135,7 +133,7 @@
                                 {% endfor %}
                             </label>
                         </div>
-                        <select class="browser-default custom-select" name="{{ form.woe_job.name }}" id="{{ form.woe_job.auto_id }}" onchange="sl_change(this)" lb="img_woe_job">
+                        <select class="browser-default custom-select" name="{{ form.woe_job.name }}" id="{{ form.woe_job.auto_id }}" onchange="sl_change(this)" data-lb="img_woe_job">
                             <option selected>-- Select --</option>
                             {% for pk, choice in form.jobs.field.widget.choices %}
                             {% if pk in job_ids %}
@@ -168,7 +166,7 @@
                                 {% endfor %}
                             </label>
                         </div>
-                        <select class="browser-default custom-select" name="{{ form.woc_job.name }}" id="{{ form.woc_job.auto_id }}" onchange="sl_change(this)" lb="img_woc_job">
+                        <select class="browser-default custom-select" name="{{ form.woc_job.name }}" id="{{ form.woc_job.auto_id }}" onchange="sl_change(this)" data-lb="img_woc_job">
                             <option selected>-- Select --</option>
                             {% for pk, choice in form.jobs.field.widget.choices %}
                             {% if pk in job_ids %}
@@ -201,7 +199,7 @@
                                 {% endfor %}
                             </label>
                         </div>
-                        <select class="browser-default custom-select" name="{{ form.zone_job.name }}" id="{{ form.zone_job.auto_id }}" onchange="sl_change(this)" lb="img_zone_job">
+                        <select class="browser-default custom-select" name="{{ form.zone_job.name }}" id="{{ form.zone_job.auto_id }}" onchange="sl_change(this)" data-lb="img_zone_job">
                             <option selected>-- Select --</option>
                             {% for pk, choice in form.jobs.field.widget.choices %}
                             {% if pk in job_ids %}

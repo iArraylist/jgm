@@ -1,75 +1,67 @@
 {% load static %}
 {% load rom_extras %}
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="card bg-light border-dark m-3 w-18rem">
-                <div class="card-header p-1 px-2">
-                    <div class="row m-0">
-                        <div class="col-8 p-0">
-                            <input type="text" class="form-control form-control-sm form-custom-sm" name="party_name" required placeholder="Party name" value="{{ party.name }}">
-                        </div>
-                        <div class="col-4 p-0 text-right">
-                            <button class="rm-border" style="background-color: rgba(0,0,0,0);" party-id="party_{{ party.id }}" onclick="party_save(this)">
-                                <i class="fa fa-check"></i>
-                            </button>
-                            <button class="rm-border" style="background-color: rgba(0,0,0,0);" party-id="party_{{ party.id }}" data-dismiss="modal">
-                                <i class="fa fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
+{% for party in party_list %}
+<div class="card bg-light border-dark m-3 w-18rem">
+    <div class="card-header p-1 px-2">
+        <div class="row m-0">
+            <div class="col p-0">
+                <input type="text" class="form-control form-control-sm form-custom-sm" name="party_name" required placeholder="Party name" value="{{ party.name }}">
+            </div>
+            <div class="col-1 p-0 text-right">
+                <button class="rm-border" style="background-color: rgba(0,0,0,0);" data-party_id="party_{{ party.id }}" data-party_name="{{ party.name }}" onclick="party_remove(this)">
+                    <i class="fa fa-trash-o"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-1 px-2">
+        {% for member in party.member %}
+        <div class="row m-0">
+            <div class="col p-0 input-group">
+                <div class="input-group-prepend">
+                    <label class="input-group-text">
+                    </label>
                 </div>
-                <div class="card-body p-1 px-2">
-                    {% for member in party.member %}
-                    <div class="row m-0">
-                        <div class="col-11 p-0 input-group">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text">
-                                </label>
-                            </div>
-                            <select class="form-control form-control-sm form-custom-sm select-job">
-                                <option selected>-- Select --</option>
-                                <option>sdfsdf sdfsdfsdf</option>
-                                <option>sdfsdf sdfsdfsdf</option>
-                                <option>sdfsdf sdfsdfsdf</option>
-                                <option>sdfsdf sdfsdfsdf</option>
-                            </select>
-                            <select class="form-control form-control-sm form-custom-sm ">
-                                <option selected>-- Select --</option>
-                                <option>sdfsdf sdfsdfsdf</option>
-                                <option>sdfsdf sdfsdfsdf</option>
-                                <option>sdfsdf sdfsdfsdf</option>
-                                <option>sdfsdf sdfsdfsdf</option>
-                            </select>
-                        </div>
-                        <div class="col-1 p-0 text-right">
-                            {% if member.data.leader %}
-                            <span style="color: Red;">
+                <select class="form-control form-control-sm form-custom-sm select-job">
+                    <option selected>-- Select --</option>
+                    <option>sdfsdf sdfsdfsdf</option>
+                    <option>sdfsdf sdfsdfsdf</option>
+                    <option>sdfsdf sdfsdfsdf</option>
+                    <option>sdfsdf sdfsdfsdf</option>
+                </select>
+                <select class="form-control form-control-sm form-custom-sm ">
+                    <option selected>-- Select --</option>
+                    <option>sdfsdf sdfsdfsdf</option>
+                    <option>sdfsdf sdfsdfsdf</option>
+                    <option>sdfsdf sdfsdfsdf</option>
+                    <option>sdfsdf sdfsdfsdf</option>
+                </select>
+            </div>
+            <div class="col-1 p-0 text-right">
+                {% if member.data.leader %}
+                <span style="color: Red;">
                 <i class="fa fa-bookmark"></i>
             </span>
-                            {% else %}
-                            <span style="color: Gray;">
+                {% else %}
+                <span style="color: Gray;">
                 <i class="fa fa-bookmark"></i>
             </span>
-                            {% endif %}
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-                <div class="card-footer p-1 px-2">
-                    <div class="row m-0">
-                        <div class="col-3 p-0">
-                            <span class="badge badge-secondary">Remark</span>
-                        </div>
-                        <div class="col-9 p-0">
-                            <input type="text" class="form-control form-control-sm form-custom-sm" name="party_remark" value="{{ party.data.remark }}">
-                        </div>
-                    </div>
-                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="card-footer p-1 px-2">
+        <div class="row m-0">
+            <div class="col-3 p-0">
+                <span class="badge badge-secondary">Remark</span>
+            </div>
+            <div class="col-9 p-0">
+                <input type="text" class="form-control form-control-sm form-custom-sm" name="party_remark" value="{{ party.data.remark }}">
             </div>
         </div>
     </div>
 </div>
+{% endfor %}
+
 

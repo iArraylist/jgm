@@ -15,26 +15,27 @@
             </li>
         </ul>
     </div>
-    <div class="card-body row" id="party_card_body">
+    <div class="card-body row py-1">
+        <button type="button" class="btn btn-labeled btn-dark m-2" id="party_btn_edit">
+            <span class="btn-label"><i class="fa fa-pencil"></i></span>Edit
+        </button>
+        <button type="button" class="btn btn-labeled btn-primary m-2" id="party_btn_finish">
+            <span class="btn-label"><i class="fa fa-check"></i></span>Finish
+        </button>
+        <button type="button" class="btn btn-labeled btn-primary m-2" id="party_btn_add">
+            <span class="btn-label"><i class="fa fa-plus"></i></span>Add
+        </button>
+    </div>
+    <hr class="m-0">
+    <div class="card-body row py-1" id="party_card_body">
         {% for party in party_list %}
         <div class="card bg-light border-dark m-3 w-18rem" id="party_{{ party.id }}">
             {% include 'party/components/party_block.html' %}
         </div>
         {% endfor %}
-    </div>
-    <div class="card-footer">
-        <button type="button" class="btn btn-labeled btn-primary">
-            <span class="btn-label"><i class="fa fa-plus"></i></span>Party
-        </button>
+        {% include 'party/components/party_edit_block.html' %}
     </div>
 </div>
 
-{% include 'party/components/party_edit_block.html' %}
-
 <script src="{% static 'js/party.js' %}"></script>
-<script>
-$('#myModal').on('shown.bs.modal', function () {
-  $('#myInput').trigger('focus');
-});
-</script>
 {% endblock %}
