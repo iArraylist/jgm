@@ -1,38 +1,41 @@
 {% load static %}
 {% load rom_extras %}
 
-<div class="card-header p-1 px-2">
-    <div class="row m-0">
-        <div class="col p-0">
-            {{ party.name }}
+{% for party in party_list %}
+<div class="card bg-light border-dark m-3 w-18rem">
+    <div class="card-header p-1 px-2">
+        <div class="row m-0">
+            <div class="col p-0">
+                {{ party.name }}
+            </div>
         </div>
     </div>
-</div>
-<div class="card-body p-1 px-2">
-    {% for member in party.member %}
-    <div class="row m-0">
-        <div class="col-11 p-0">
-            {% if member.war_job_id %}
-            <span><img src="{{ job_images|get_item:member.job_id }}" width="25" height="25"> {{ member.name }}</span>
-            {% else %}
-            <span>------------</span>
-            {% endif %}
-        </div>
-        <div class="col-1 p-0 text-right">
-            {% if member.data.leader %}
-            <span style="color: Red;">
+    <div class="card-body p-1 px-2">
+        {% for member in party.member %}
+        <div class="row m-0">
+            <div class="col-11 p-0">
+                {% if member.war_job_id %}
+                <span><img src="{{ job_images|get_item:member.job_id }}" width="25" height="25"> {{ member.name }}</span>
+                {% else %}
+                <span>------------</span>
+                {% endif %}
+            </div>
+            <div class="col-1 p-0 text-right">
+                {% if member.data.leader %}
+                <span style="color: Red;">
                     <i class="fa fa-bookmark"></i>
                 </span>
-            {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="card-footer p-1 px-2">
+        <div class="row m-0">
+            <div class="col-12 p-0">
+                <span class="badge badge-secondary">Remark</span> <small>{{ party.data.remark }}</small>
+            </div>
         </div>
     </div>
-    {% endfor %}
 </div>
-<div class="card-footer p-1 px-2">
-    <div class="row m-0">
-        <div class="col-12 p-0">
-            <span class="badge badge-secondary">Remark</span> <small>{{ party.data.remark }}</small>
-        </div>
-    </div>
-</div>
-
+{% endfor %}

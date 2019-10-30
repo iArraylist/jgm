@@ -24,8 +24,10 @@ urlpatterns = [
     url(r'^guild/(\w+)/approve/(\d+)/$', guild_views.approve, name='guild_approve'),
     url(r'^guild/(\w+)/member-list/$', guild_views.member_list, name='guild_member_list'),
 
-    url(r'^guild/(\w+)/party/(\w+)/$', party_views.party_list, name='guild_party_list'),
     url(r'^guild/(\w+)/party/(\w+)/summary/$', party_views.party_summary, name='guild_party_summary'),
+    url(r'^guild/(\w+)/party/(\w+)/$', party_views.party_list, name='guild_party_list'),
+    url(r'^guild/(\w+)/party/(\w+)/edit/$', party_views.party_edit_list, name='guild_party_edit_list'),
+    url(r'^guild/(\w+)/party/(\w+)/get_war_job/$', party_views.get_war_job, name='guild_party_get_war_job'),
 
     url(r'profile/save/$', rom_views.profile_save, name='profile_save')
 ]

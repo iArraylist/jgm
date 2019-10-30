@@ -10,6 +10,8 @@ from rom.form_profile import ProfileForm
 from rom.models import Job
 
 job_images = {job.pk: job.image.url for job in Job.objects.all()}
+jobs = [(job.pk, job.name) for job in Job.objects.all()]
+
 
 @login_required
 def home(request):

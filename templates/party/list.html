@@ -1,10 +1,16 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load rom_extras %}
 
 {% block title %} Home {% endblock %}
 {% block content %}
 
 <div class="card mb-3">
+    {%if edit %}
+    {% for job_pk, job_name in jobs %}
+        <img src="{{ job_images|get_item:job_pk }}" id="job_model_img_{{ job_pk }}" width="24" height="24" hidden>
+    {% endfor %}
+    {% endif %}
     <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
@@ -16,26 +22,27 @@
         </ul>
     </div>
     <div class="card-body row py-1">
-        <button type="button" class="btn btn-labeled btn-dark m-2" id="party_btn_edit">
-            <span class="btn-label"><i class="fa fa-pencil"></i></span>Edit
-        </button>
-        <button type="button" class="btn btn-labeled btn-primary m-2" id="party_btn_finish">
+        {% if edit %}
+        <a href="{% url 'guild_party_list' invite_code war.war_type %}" class="btn btn-labeled btn-primary m-2">
             <span class="btn-label"><i class="fa fa-check"></i></span>Finish
-        </button>
-        <button type="button" class="btn btn-labeled btn-primary m-2" id="party_btn_add">
+        </a>
+        <button type="button" class="btn btn-labeled btn-primary m-2" id="party_btn_add" onclick="party_add(this)">
             <span class="btn-label"><i class="fa fa-plus"></i></span>Add
         </button>
+        {% else %}
+        <a href="{% url 'guild_party_edit_list' invite_code war.war_type %}" class="btn btn-labeled btn-dark m-2">
+            <span class="btn-label"><i class="fa fa-pencil"></i></span>Edit
+        </a>
+        {% endif %}
     </div>
     <hr class="m-0">
     <div class="card-body row py-1" id="party_card_body">
-        {% for party in party_list %}
-        <div class="card bg-light border-dark m-3 w-18rem" id="party_{{ party.id }}">
-            {% include 'party/components/party_block.html' %}
-        </div>
-        {% endfor %}
+        {% if edit %}
         {% include 'party/components/party_edit_block.html' %}
+        {% else %}
+        {% include 'party/components/party_block.html' %}
+        {% endif %}
     </div>
 </div>
 
-<script src="{% static 'js/party.js' %}"></script>
 {% endblock %}

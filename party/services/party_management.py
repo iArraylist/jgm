@@ -4,6 +4,8 @@ from __future__ import unicode_literals
 from guild.models import Guild
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
+from django.db.models import Q
+
 
 class Party(object):
     WAR_TYPE = None
@@ -43,6 +45,13 @@ class Party(object):
 
     def get_war_name(self):
         return self.WAR_NAME
+
+    def get_war_jobs(self, pm_id, job_id):
+        war_job_list_q = self.guild.member_war_jobs.filter(Q(party_m__id=pm_id) | Q(party_m__isnull=True), job_id=job_id, war=self.WAR_TYPE)
+        war_job_list = list()
+        for war_job in war_job_list_q:
+            war_job_list.append((war_job.pk, war_job.character.ign))
+        return war_job_list
 
 
 class WOEManagement(Party):

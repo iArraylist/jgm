@@ -1,7 +1,23 @@
 {% load static %}
 {% load rom_extras %}
+
+{% block js %}
+<script src="{% static 'js/class.js' %}"></script>
+<script src="{% static 'js/party.js' %}"></script>
+<script>
+function initPage() {
+    var widget = new WidgetPartySelectCharacter('{% url 'guild_party_get_war_job' invite_code war.war_type %}');
+}
+
+$(function() {
+    initPage();
+});
+
+</script>
+{% endblock %}
+
 {% for party in party_list %}
-<div class="card bg-light border-dark m-3 w-18rem">
+<div class="card bg-light border-dark m-3 w-18rem" id="party_{{ party.id }}">
     <div class="card-header p-1 px-2">
         <div class="row m-0">
             <div class="col p-0">
@@ -19,22 +35,20 @@
         <div class="row m-0">
             <div class="col p-0 input-group">
                 <div class="input-group-prepend">
-                    <label class="input-group-text">
+                    <label class="input-group-text p-0" id="lb_{{ member.id }}">
+                        {% if member.job_id %}
+                        <img src="{{ job_images|get_item:member.job_id }}" width="24" height="24" >
+                        {% endif %}
                     </label>
                 </div>
-                <select class="form-control form-control-sm form-custom-sm select-job">
-                    <option selected>-- Select --</option>
-                    <option>sdfsdf sdfsdfsdf</option>
-                    <option>sdfsdf sdfsdfsdf</option>
-                    <option>sdfsdf sdfsdfsdf</option>
-                    <option>sdfsdf sdfsdfsdf</option>
+                <select class="form-control form-control-sm select-job" id="pmj_{{ member.id }}" data-pm_id="{{ member.id }}" data-pmc_select="pmc_{{ member.id }}" data-lb="lb_{{ member.id }}" onchange="job_sl_change(this)">
+                    <option value="none" selected>-- Select --</option>
+                    {% for job_pk, job_name in jobs %}
+                    <option value="{{ job_pk }}" {% if job_pk == member.job_id %} selected {% endif %}>{{ job_name }}</option>
+                    {% endfor %}
                 </select>
-                <select class="form-control form-control-sm form-custom-sm ">
-                    <option selected>-- Select --</option>
-                    <option>sdfsdf sdfsdfsdf</option>
-                    <option>sdfsdf sdfsdfsdf</option>
-                    <option>sdfsdf sdfsdfsdf</option>
-                    <option>sdfsdf sdfsdfsdf</option>
+                <select class="form-control form-control-sm" name="pmc_select" id="pmc_{{ member.id }}" data-pmj_select="pmj_{{ member.id }}" data-war_job_id="{{ member.war_job_id }}">
+                    <option value="none" selected>-- Select --</option>
                 </select>
             </div>
             <div class="col-1 p-0 text-right">
