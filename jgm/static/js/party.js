@@ -35,6 +35,16 @@ var WidgetPartySelectCharacter = Class.extend({
                 if (pmj_select.value != 'none'){
                     this.reloadData(pmj_select, pmc_select);
                 };
+
+                pmj_select.addEventListener("change", function(){
+                    this.reloadData(pmj_select, pmc_select);
+                });
+                pmc_select.addEventListener("click", function(){
+
+                });
+                pmc_select.addEventListener("change", function(){
+
+                });
             };
         };
     },
