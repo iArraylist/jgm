@@ -22,6 +22,20 @@ function job_sl_change(e){
     }
 };
 
+function leader_cb_change(e, url){
+    var pass_data = {};
+    pass_data['p_id'] = e.dataset.p_id;
+    pass_data['pm_id'] = e.dataset.pm_id;
+    if (e.checked) { pass_data['check'] = true }
+    else { pass_data['check'] = false };
+    $.ajax({
+        dataType: 'json',
+        url: url,
+        type: 'GET',
+        data: pass_data
+    });
+};
+
 var WidgetPartySelectCharacter = Class.extend({
     init: function(url_reloadData, url_pushPMCData){
         this.url_reloadData = url_reloadData;

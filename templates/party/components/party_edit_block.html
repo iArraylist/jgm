@@ -12,7 +12,6 @@ function initPage() {
 $(function() {
     initPage();
 });
-
 </script>
 {% endblock %}
 
@@ -37,7 +36,7 @@ $(function() {
                 <div class="input-group-prepend">
                     <label class="input-group-text p-0" id="lb_{{ member.id }}">
                         {% if member.job_id %}
-                        <img src="{{ job_images|get_item:member.job_id }}" width="24" height="24" >
+                        <img src="{{ job_images|get_item:member.job_id }}" width="24" height="24">
                         {% endif %}
                     </label>
                 </div>
@@ -52,15 +51,7 @@ $(function() {
                 </select>
             </div>
             <div class="col-1 p-0 text-right">
-                {% if member.data.leader %}
-                <span style="color: Red;">
-                <i class="fa fa-bookmark"></i>
-            </span>
-                {% else %}
-                <span style="color: Gray;">
-                <i class="fa fa-bookmark"></i>
-            </span>
-                {% endif %}
+                <input type="checkbox" class="fa fa-bookmark" data-pm_id="{{ member.id }}" data-p_id="{{ party.id }}" onchange="leader_cb_change(this, &quot;{% url 'guild_party_push_leader' invite_code war.war_type %}&quot;)" {% if member.data.leader %} checked {% endif %}>
             </div>
         </div>
         {% endfor %}

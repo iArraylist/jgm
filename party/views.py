@@ -81,3 +81,17 @@ def push_war_job(request, invite_code, war_type):
     res['error_code'] = service.push_war_job(war_job_id=war_job_id)
     response = HttpResponse(json.dumps(res), content_type='application/json; charset=UTF-8')
     return response
+
+
+@csrf_exempt
+@login_required
+def push_leader(request, invite_code, war_type):
+    rm = RequestManagement(request)
+    p_id = request.GET.get('p_id')
+    pm_id = request.GET.get('pm_id')
+    check = request.GET.get('check', False)
+    service = PartyService(rm.get_user(), invite_code=invite_code, war_type=war_type, allow_role=[0, 1], p_id=p_id, pm_id=pm_id).get()
+    res = dict()
+    res['error_code'] = service.push_leader(check=check)
+    response = HttpResponse(json.dumps(res), content_type='application/json; charset=UTF-8')
+    return response

@@ -72,6 +72,15 @@ class PartyManagement(object):
             self.party_member.save()
         return error_code
 
+    def push_leader(self, check):
+        error_code = 0
+        data = {
+            'leader': check
+        }
+        self.party_member.update_data(data_dict=data)
+        self.party_member.save()
+        return error_code
+
 
 class WOEManagement(PartyManagement):
     WAR_TYPE = 0

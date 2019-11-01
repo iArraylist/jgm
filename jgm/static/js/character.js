@@ -28,7 +28,7 @@ function sl_change(e){
 };
 
 function cb_change(e){
-    if (e.checked ) {
+    if (e.checked) {
         img = document.getElementById(e.dataset.img_id).setAttribute('class', '');
     }
     else {

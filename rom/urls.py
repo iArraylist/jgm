@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^guild/(\w+)/party/(\w+)/edit/$', party_views.party_edit_list, name='guild_party_edit_list'),
     url(r'^guild/(\w+)/party/(\w+)/get_war_jobs/$', party_views.get_war_jobs, name='guild_party_get_war_jobs'),
     url(r'^guild/(\w+)/party/(\w+)/push_war_job/$', party_views.push_war_job, name='guild_party_push_war_job'),
+    url(r'^guild/(\w+)/party/(\w+)/push_leader/$', party_views.push_leader, name='guild_party_push_leader'),
 
     url(r'profile/save/$', rom_views.profile_save, name='profile_save')
 ]
