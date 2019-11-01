@@ -24,7 +24,7 @@ $(function() {
                 <input type="text" class="form-control form-control-sm form-custom-sm" name="party_name" required placeholder="Party name" value="{{ party.name }}">
             </div>
             <div class="col-1 p-0 text-right">
-                <button class="rm-border" style="background-color: rgba(0,0,0,0);" data-party_id="party_{{ party.id }}" data-party_name="{{ party.name }}" onclick="party_remove(this)">
+                <button class="rm-border" style="background-color: rgba(0,0,0,0);" data-party_id="{{ party.id }}" data-party_name="{{ party.name }}" onclick="party_remove(this)">
                     <i class="fa fa-trash-o"></i>
                 </button>
             </div>
@@ -41,14 +41,14 @@ $(function() {
                         {% endif %}
                     </label>
                 </div>
-                <select class="form-control form-control-sm select-job" id="pmj_{{ member.id }}" data-pm_id="{{ member.id }}" data-pmc_select="pmc_{{ member.id }}" data-lb="lb_{{ member.id }}" onchange="job_sl_change(this)">
-                    <option value="none" selected>-- Select --</option>
+                <select class="form-control form-control-sm select-job" id="pmj_{{ member.id }}" data-pm_id="{{ member.id }}" data-p_id="{{ party.id }}" data-pmc_select="pmc_{{ member.id }}" data-lb="lb_{{ member.id }}" onchange="job_sl_change(this)">
+                    <option value="None" selected>-- Select --</option>
                     {% for job_pk, job_name in jobs %}
                     <option value="{{ job_pk }}" {% if job_pk == member.job_id %} selected {% endif %}>{{ job_name }}</option>
                     {% endfor %}
                 </select>
                 <select class="form-control form-control-sm" name="pmc_select" id="pmc_{{ member.id }}" data-pmj_select="pmj_{{ member.id }}" data-war_job_id="{{ member.war_job_id }}">
-                    <option value="none" selected>-- Select --</option>
+                    <option value="None" selected>-- Select --</option>
                 </select>
             </div>
             <div class="col-1 p-0 text-right">

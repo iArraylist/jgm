@@ -49,19 +49,26 @@ class PartyManagement(object):
     def get_war_name(self):
         return self.WAR_NAME
 
-    def get_war_jobs(self, job_id):
+    def get_war_jobs(self, job_id, war_job_id_selected):
         war_job_list = list()
-        if job_id != 'none':
+        if job_id != 'None':
             war_job_list_q = self.guild.member_war_jobs.filter(Q(party_m=self.party_member) | Q(party_m__isnull=True), job_id=job_id, war=self.WAR_TYPE)
             for war_job in war_job_list_q:
                 war_job_list.append((war_job.pk, war_job.character.ign))
+        if war_job_id_selected == 'None':
+            if self.party_member.war_job:
+                self.party_member.war_job = None
+                self.party_member.save()
         return war_job_list
 
     def push_war_job(self, war_job_id):
         error_code = 0
-        if war_job_id != 'none':
+        if war_job_id != 'None':
             war_job = self.guild.member_war_jobs.get(pk=war_job_id)
             self.party_member.war_job = war_job
+            self.party_member.save()
+        else:
+            self.party_member.war_job = None
             self.party_member.save()
         return error_code
 
