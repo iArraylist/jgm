@@ -56,14 +56,25 @@ def party_edit_list(request, invite_code, war_type):
 
 @csrf_exempt
 @login_required
-def get_war_job(request, invite_code, war_type):
+def get_war_jobs(request, invite_code, war_type):
     rm = RequestManagement(request)
-    service = PartyService(rm.get_user(), invite_code=invite_code, war_type=war_type, allow_role=[0, 1]).get()
     pm_id = request.GET.get('pm_id')
-    job_id = request.GET.get('job_id')
-
+    job_id = request.GET.get('job_id', 'none')
+    service = PartyService(rm.get_user(), invite_code=invite_code, war_type=war_type, allow_role=[0, 1], pm_id=pm_id).get()
     res = dict()
-    res['error_code'] = 0
-    res['result'] = service.get_war_jobs(pm_id=pm_id, job_id=job_id)
+    res['result'] = service.get_war_jobs(job_id=job_id)
+    response = HttpResponse(json.dumps(res), content_type='application/json; charset=UTF-8')
+    return response
+
+
+@csrf_exempt
+@login_required
+def push_war_job(request, invite_code, war_type):
+    rm = RequestManagement(request)
+    pm_id = request.GET.get('pm_id')
+    war_job_id = request.GET.get('war_job_id', 'none')
+    service = PartyService(rm.get_user(), invite_code=invite_code, war_type=war_type, allow_role=[0, 1], pm_id=pm_id).get()
+    res = dict()
+    res['error_code'] = service.push_war_job(war_job_id=war_job_id)
     response = HttpResponse(json.dumps(res), content_type='application/json; charset=UTF-8')
     return response

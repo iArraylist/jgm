@@ -12,7 +12,7 @@ class CharacterManagement(object):
         self.user = user
         if base_id is not None:
             try:
-                self.base = CharacterBase.objects.get(pk=base_id, member=self.user)
+                self.base = self.user.bases.get(pk=base_id)
             except CharacterBase.DoesNotExist:
                 raise Exception("%s DoesNotExist" % base_id)
         else:

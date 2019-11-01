@@ -2,17 +2,20 @@
 from __future__ import unicode_literals
 
 from guild.models import Guild
+from party.models import Party, PartyMember
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.db.models import Q
 
 
-class Party(object):
+class PartyManagement(object):
     WAR_TYPE = None
     WAR_NAME = ''
 
-    def __init__(self, guild):
+    def __init__(self, guild, party=None, party_member=None):
         self.guild = guild
+        self.party = party
+        self.party_member = party_member
 
     def get_party_list(self):
         party_list_q = self.guild.party_list.filter(war=self.WAR_TYPE)
@@ -46,25 +49,34 @@ class Party(object):
     def get_war_name(self):
         return self.WAR_NAME
 
-    def get_war_jobs(self, pm_id, job_id):
-        war_job_list_q = self.guild.member_war_jobs.filter(Q(party_m__id=pm_id) | Q(party_m__isnull=True), job_id=job_id, war=self.WAR_TYPE)
+    def get_war_jobs(self, job_id):
         war_job_list = list()
-        for war_job in war_job_list_q:
-            war_job_list.append((war_job.pk, war_job.character.ign))
+        if job_id != 'none':
+            war_job_list_q = self.guild.member_war_jobs.filter(Q(party_m=self.party_member) | Q(party_m__isnull=True), job_id=job_id, war=self.WAR_TYPE)
+            for war_job in war_job_list_q:
+                war_job_list.append((war_job.pk, war_job.character.ign))
         return war_job_list
 
+    def push_war_job(self, war_job_id):
+        error_code = 0
+        if war_job_id != 'none':
+            war_job = self.guild.member_war_jobs.get(pk=war_job_id)
+            self.party_member.war_job = war_job
+            self.party_member.save()
+        return error_code
 
-class WOEManagement(Party):
+
+class WOEManagement(PartyManagement):
     WAR_TYPE = 0
     WAR_NAME = 'WOE'
 
 
-class WOCManagement(Party):
+class WOCManagement(PartyManagement):
     WAR_TYPE = 1
     WAR_NAME = 'WOE'
 
 
-class ZoneManagement(Party):
+class ZoneManagement(PartyManagement):
     WAR_TYPE = 2
     WAR_NAME = 'WOE'
 
@@ -76,7 +88,7 @@ class PartyService(object):
         'zone': ZoneManagement
     }
 
-    def __init__(self, user, invite_code, war_type, allow_role=None):
+    def __init__(self, user, invite_code, war_type, allow_role=None, p_id=None, pm_id=None):
         self.user = user
         try:
             self.guild = Guild.objects.get(invite_code=invite_code)
@@ -85,6 +97,8 @@ class PartyService(object):
         if allow_role:
             self.__permission(allow_role)
         self.war_type = war_type
+        self.party = self.guild.party_list.get(pk=p_id) if p_id is not None else None
+        self.party_member = self.party.members.get(pk=pm_id) if pm_id is not None else None
         self.service = self.__get_service(war_type=war_type)
 
     def __permission(self, allow_role):
@@ -93,7 +107,7 @@ class PartyService(object):
 
     def __get_service(self, war_type):
         try:
-            return self.war[war_type](guild=self.guild)
+            return self.war[war_type](guild=self.guild, party=self.party, party_member=self.party_member)
         except KeyError:
             raise Http404
 

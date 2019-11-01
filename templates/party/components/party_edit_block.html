@@ -6,7 +6,7 @@
 <script src="{% static 'js/party.js' %}"></script>
 <script>
 function initPage() {
-    var widget = new WidgetPartySelectCharacter('{% url 'guild_party_get_war_job' invite_code war.war_type %}');
+    var widget = new WidgetPartySelectCharacter('{% url 'guild_party_get_war_jobs' invite_code war.war_type %}', '{% url 'guild_party_push_war_job' invite_code war.war_type %}');
 }
 
 $(function() {
