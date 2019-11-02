@@ -28,6 +28,9 @@ class RequestManagement(object):
 
 def get_data(form_json, key_list):
     data = dict()
-    for key in key_list:
-        data[key] = form_json[key]
+    for key, cus_key in key_list:
+        if cus_key is None:
+            data[key] = form_json[key]
+        else:
+            data[cus_key] = form_json[key]
     return data

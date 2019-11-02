@@ -11,7 +11,7 @@ class Party(models.Model):
     war = models.IntegerField(choices=WAR_TYPE, db_index=True)
     name = models.CharField(max_length=255)
     data = models.TextField(default='null')
-    sort = models.IntegerField(default=0, db_index=True)
+    sort = models.IntegerField(default=1, db_index=True)
 
     class Meta:
         ordering = ['sort']
@@ -46,7 +46,7 @@ class PartyMember(models.Model):
     party = models.ForeignKey('party.Party', db_index=True, related_name='members', related_query_name='member')
     war_job = models.ForeignKey('guild.WarJob', db_index=True, blank=True, null=True, default=None, related_name='party_m_list', related_query_name='party_m')
     data = models.TextField(default='null')
-    sort = models.IntegerField(default=0, db_index=True)
+    sort = models.IntegerField(default=1, db_index=True)
 
     class Meta:
         ordering = ['sort']

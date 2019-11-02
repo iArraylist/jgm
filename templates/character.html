@@ -126,7 +126,11 @@
                     <div class="col-lg-9 input-group">
                         <div class="input-group-prepend">
                             <label class="input-group-text" for="{{ form.woe_job.auto_id }}" id="img_woe_job">
+                                {% for pk, choice in form.jobs.field.widget.choices %}
+                                {% if pk == war.woe_job %}
                                 <img src="{{ job_images|get_item:war.woe_job }}" width="24" height="24">
+                                {% endif %}
+                                {% endfor %}
                             </label>
                         </div>
                         <select class="browser-default custom-select" name="{{ form.woe_job.name }}" id="{{ form.woe_job.auto_id }}" onchange="sl_change(this)" data-lb="img_woe_job">

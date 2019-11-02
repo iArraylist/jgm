@@ -5,7 +5,7 @@ from guild.models import Guild
 from party.models import Party, PartyMember
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
-from django.db.models import Q
+from django.db.models import Q, Max
 
 
 class PartyManagement(object):
@@ -61,6 +61,34 @@ class PartyManagement(object):
                 self.party_member.save()
         return war_job_list
 
+    def push(self):
+        plist = Party.objects.filter(guild=self.guild, war=self.WAR_TYPE)
+        sort = plist.aggregate(Max('sort')).get('sort__max') + 1 if plist.aggregate(Max('sort')).get('sort__max') is not None else 1
+        name = 'P.%s' % (len(plist) + 1)
+        party = Party(
+            guild=self.guild,
+            war=self.WAR_TYPE,
+            name=name,
+            sort=sort
+        )
+        data = dict()
+        data['remark'] = ''
+        data['color'] = 'def'
+        party.update_data(data)
+        party.save()
+        for pm_sort in range(6):
+            pm = PartyMember(
+                party=party,
+                sort=pm_sort
+            )
+            pm_data = dict()
+            pm_data['leader'] = False
+            pm.update_data(pm_data)
+            pm.save()
+
+    def delete(self):
+        self.party.delete()
+
     def push_war_job(self, war_job_id):
         error_code = 0
         if war_job_id != 'None':
@@ -74,11 +102,17 @@ class PartyManagement(object):
 
     def push_leader(self, check):
         error_code = 0
-        data = {
-            'leader': check
-        }
+        data = dict()
+        data['leader'] = check
         self.party_member.update_data(data_dict=data)
         self.party_member.save()
+        return error_code
+
+    def push_data(self, party_name, data):
+        error_code = 0
+        self.party.name = party_name
+        self.party.update_data(data)
+        self.party.save()
         return error_code
 
 

@@ -9,7 +9,7 @@
 .btn { margin-bottom:10px; }
 
 .form-custom-sm {height: calc(1.5em + .5rem + -5px);}
-.input-group>.select-job {flex:0;}
-.fa.fa-bookmark:before {visibility: visible;color: Gray;}
-.fa.fa-bookmark:checked:before {color: Red;}
-input[type=checkbox].fa {visibility: hidden;}
+.input-group>.selected-hide {flex:0;}
+.fa.fa-bookmark.leader:before {visibility: visible;color: Gray;}
+.fa.fa-bookmark.leader:checked:before {color: Red;}
+input[type=checkbox].fa.fa-bookmark.leader {visibility: hidden;}

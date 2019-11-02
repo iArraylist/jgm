@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 import json
 from django.http import HttpResponse
-from jgm.services.request_management import RequestManagement
+from jgm.services.request_management import RequestManagement, get_data
 from party.services.party_management import PartyService
 from rom.models import Job
 from rom.views import job_images, jobs
@@ -54,6 +54,22 @@ def party_edit_list(request, invite_code, war_type):
     return render(request, 'party/list.html', context=context)
 
 
+@login_required
+def party_add(request, invite_code, war_type):
+    rm = RequestManagement(request)
+    service = PartyService(rm.get_user(), invite_code=invite_code, war_type=war_type, allow_role=[0, 1]).get()
+    service.push()
+    return redirect(reverse('guild_party_edit_list', args=[invite_code, war_type]))
+
+
+@login_required
+def party_del(request, invite_code, war_type, p_id):
+    rm = RequestManagement(request)
+    service = PartyService(rm.get_user(), invite_code=invite_code, war_type=war_type, allow_role=[0, 1], p_id=p_id).get()
+    service.delete()
+    return redirect(reverse('guild_party_edit_list', args=[invite_code, war_type]))
+
+
 @csrf_exempt
 @login_required
 def get_war_jobs(request, invite_code, war_type):
@@ -89,9 +105,23 @@ def push_leader(request, invite_code, war_type):
     rm = RequestManagement(request)
     p_id = request.GET.get('p_id')
     pm_id = request.GET.get('pm_id')
-    check = request.GET.get('check', False)
+    check = True if request.GET.get('check', 'false') == 'true' else False
     service = PartyService(rm.get_user(), invite_code=invite_code, war_type=war_type, allow_role=[0, 1], p_id=p_id, pm_id=pm_id).get()
     res = dict()
     res['error_code'] = service.push_leader(check=check)
+    response = HttpResponse(json.dumps(res), content_type='application/json; charset=UTF-8')
+    return response
+
+
+@csrf_exempt
+@login_required
+def push_party_data(request, invite_code, war_type):
+    rm = RequestManagement(request)
+    p_id = request.GET.get('p_id')
+    party_name = request.GET.get('party_name')
+    data = get_data(request.GET, [('party_remark', 'remark'), ('party_color', 'color')])
+    service = PartyService(rm.get_user(), invite_code=invite_code, war_type=war_type, allow_role=[0, 1], p_id=p_id).get()
+    res = dict()
+    res['error_code'] = service.push_data(party_name=party_name, data=data)
     response = HttpResponse(json.dumps(res), content_type='application/json; charset=UTF-8')
     return response

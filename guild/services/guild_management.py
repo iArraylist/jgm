@@ -22,7 +22,7 @@ class GuildCreateManagement(object):
         name = form_json['name']
         guild = Guild(name=name,
                       invite_code=None)
-        data = get_data(form_json, ['discord_link'])
+        data = get_data(form_json, [('discord_link', None)])
         guild.update_data(data_dict=data)
 
         guild.save()

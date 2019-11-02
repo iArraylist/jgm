@@ -3,7 +3,7 @@
 
 {% for party in party_list %}
 <div class="card bg-light border-dark m-3 w-18rem">
-    <div class="card-header p-1 px-2">
+    <div class="card-header {{ party.data.color }} p-1 px-2">
         <div class="row m-0">
             <div class="col p-0">
                 {{ party.name }}
@@ -30,7 +30,7 @@
         </div>
         {% endfor %}
     </div>
-    <div class="card-footer p-1 px-2">
+    <div class="card-footer {{ party.data.color }} p-1 px-2">
         <div class="row m-0">
             <div class="col-12 p-0">
                 <span class="badge badge-secondary">Remark</span> <small>{{ party.data.remark }}</small>

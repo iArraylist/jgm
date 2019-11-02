@@ -4,27 +4,56 @@
 {% block js %}
 <script src="{% static 'js/class.js' %}"></script>
 <script src="{% static 'js/party.js' %}"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
 function initPage() {
-    var widget = new WidgetPartySelectCharacter('{% url 'guild_party_get_war_jobs' invite_code war.war_type %}', '{% url 'guild_party_push_war_job' invite_code war.war_type %}');
-}
+    var widgetParty = new WidgetParty();
+    var widgetPartySelectCharacter = new WidgetPartySelectCharacter();
+};
 
 $(function() {
     initPage();
 });
 </script>
 {% endblock %}
-
+<input type="hidden"
+       data-url_reload_data="{% url 'guild_party_get_war_jobs' invite_code war.war_type %}"
+       data-url_push_pmc_data="{% url 'guild_party_push_war_job' invite_code war.war_type %}"
+       data-url_push_leader="{% url 'guild_party_push_leader' invite_code war.war_type %}"
+       data-url_push_party_data="{% url 'guild_party_push_party_data' invite_code war.war_type %}"
+       id="url_list">
 {% for party in party_list %}
-<div class="card bg-light border-dark m-3 w-18rem" id="party_{{ party.id }}">
-    <div class="card-header p-1 px-2">
+<div class="card bg-light border-dark m-3 w-18rem">
+    <div class="card-header {{ party.data.color }} p-1 px-2" id="party_header_{{ party.id }}">
         <div class="row m-0">
-            <div class="col p-0">
-                <input type="text" class="form-control form-control-sm form-custom-sm" name="party_name" required placeholder="Party name" value="{{ party.name }}">
+
+            <div class="col p-0" id="party_name_{{ party.id }}" data-p_id="{{ party.id }}" data-party_name="{{ party.name }}" data-party_a_tool="party_a_tool_{{ party.id }}" data-party_b_tool="party_b_tool_{{ party.id }}" data-party_c_tool="party_c_tool_{{ party.id }}">
+                {{ party.name }}
             </div>
-            <div class="col-1 p-0 text-right">
-                <button class="rm-border" style="background-color: rgba(0,0,0,0);" data-party_id="{{ party.id }}" data-party_name="{{ party.name }}" onclick="party_remove(this)">
+            <div class="col-3 p-0 text-right" id="party_a_tool_{{ party.id }}">
+                <button class="rm-border" name="party_data_edit_btn" type="button" style="background-color: rgba(0,0,0,0);" data-party_name_div="party_name_{{ party.id }}" data-party_remark_div="party_remark_{{ party.id }}" data-party_color_select="color_select_{{ party.id }}">
+                    <i class="fa fa-pencil-square-o"></i>
+                </button>
+                <button class="rm-border" name="party_del_btn" type="button" style="background-color: rgba(0,0,0,0);" data-go="{% url 'guild_party_del' invite_code war.war_type party.id %}" data-party_name="{{ party.name }}">
                     <i class="fa fa-trash-o"></i>
+                </button>
+            </div>
+            <div class="input-group col-1 p-0 text-right" id="party_c_tool_{{ party.id }}" data-color_select="color_select_{{ party.id }}" hidden>
+                <select name="color_select" class="form-control form-control-sm form-custom-sm selected-hide" id="color_select_{{ party.id }}" data-color="{{ party.data.color }}" data-party_header="party_header_{{ party.id }}" data-party_footer="party_footer_{{ party.id }}">
+                    <option value="def" {% if party.data.color == 'def' %} selected {% endif %}>Default</option>
+                    <option value="bg-primary" {% if party.data.color == 'bg-primary' %} selected {% endif %}>Blue</option>
+                    <option value="bg-success" {% if party.data.color == 'bg-success' %} selected {% endif %}>Green</option>
+                    <option value="bg-danger" {% if party.data.color == 'bg-danger' %} selected {% endif %}>Red</option>
+                    <option value="bg-warning" {% if party.data.color == 'bg-warning' %} selected {% endif %}>Yellow</option>
+                    <option value="bg-info" {% if party.data.color == 'bg-info' %} selected {% endif %}>Blue-Green</option>
+                </select>
+            </div>
+            <div class="col-3 p-0 text-right" id="party_b_tool_{{ party.id }}" hidden>
+                <button class="rm-border" name="party_data_save_btn" type="button" style="background-color: rgba(0,0,0,0);" data-party_name_div="party_name_{{ party.id }}" data-party_remark_div="party_remark_{{ party.id }}" data-party_color_select="color_select_{{ party.id }}">
+                    <span style="color: Green;"><i class="fa fa-check"></i></span>
+                </button>
+                <button class="rm-border" name="party_data_back_btn" type="button" style="background-color: rgba(0,0,0,0);" data-party_name_div="party_name_{{ party.id }}" data-party_remark_div="party_remark_{{ party.id }}" data-party_color_select="color_select_{{ party.id }}">
+                    <span style="color: Red;"><i class="fa fa-times"></i></span>
                 </button>
             </div>
         </div>
@@ -40,7 +69,7 @@ $(function() {
                         {% endif %}
                     </label>
                 </div>
-                <select class="form-control form-control-sm select-job" id="pmj_{{ member.id }}" data-pm_id="{{ member.id }}" data-p_id="{{ party.id }}" data-pmc_select="pmc_{{ member.id }}" data-lb="lb_{{ member.id }}" onchange="job_sl_change(this)">
+                <select class="form-control form-control-sm selected-hide" name="job_select" id="pmj_{{ member.id }}" data-pm_id="{{ member.id }}" data-p_id="{{ party.id }}" data-pmc_select="pmc_{{ member.id }}" data-lb="lb_{{ member.id }}">
                     <option value="None" selected>-- Select --</option>
                     {% for job_pk, job_name in jobs %}
                     <option value="{{ job_pk }}" {% if job_pk == member.job_id %} selected {% endif %}>{{ job_name }}</option>
@@ -51,18 +80,18 @@ $(function() {
                 </select>
             </div>
             <div class="col-1 p-0 text-right">
-                <input type="checkbox" class="fa fa-bookmark" data-pm_id="{{ member.id }}" data-p_id="{{ party.id }}" onchange="leader_cb_change(this, &quot;{% url 'guild_party_push_leader' invite_code war.war_type %}&quot;)" {% if member.data.leader %} checked {% endif %}>
+                <input type="checkbox" name="leader_cb" class="fa fa-bookmark leader" data-pm_id="{{ member.id }}" data-p_id="{{ party.id }}" {% if member.data.leader %} checked {% endif %}>
             </div>
         </div>
         {% endfor %}
     </div>
-    <div class="card-footer p-1 px-2">
+    <div class="card-footer {{ party.data.color }} p-1 px-2" id="party_footer_{{ party.id }}">
         <div class="row m-0">
             <div class="col-3 p-0">
                 <span class="badge badge-secondary">Remark</span>
             </div>
-            <div class="col-9 p-0">
-                <input type="text" class="form-control form-control-sm form-custom-sm" name="party_remark" value="{{ party.data.remark }}">
+            <div class="col-9 p-0" id="party_remark_{{ party.id }}"  data-party_remark="{{ party.data.remark }}">
+                {{ party.data.remark }}
             </div>
         </div>
     </div>
