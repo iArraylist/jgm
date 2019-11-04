@@ -39,9 +39,9 @@
                     {% for ch in war_job_wop.list %}
                     <li class="list-group-item p-1">
                         {% if ch.job.job_name %}
-                        <span><img src="{{ ch.job.job_image }}" width="24" height="24"> {{ ch.ign }}</span>
+                        <span data-toggle="tooltip" data-placement="right" title="{{ ch.nickname }}" style="padding-right: 5px;"><img src="{{ ch.job.job_image }}" width="24" height="24"> {{ ch.ign }}</span>
                         {% else %}
-                        <span style="color: Red;"><i class="fa fa-question-circle fa-lg" style="padding-left: 3px;padding-right: 3px;"></i> {{ ch.ign }}</span>
+                        <span data-toggle="tooltip" data-placement="right" title="{{ ch.nickname }}" style="padding-right: 5px;color: Red;"><i class="fa fa-question-circle fa-lg" style="padding-left: 3px;padding-right: 3px;"></i> {{ ch.ign }}</span>
                         {% endif %}
                     </li>
                     {% endfor %}
@@ -56,7 +56,7 @@
                     {% for job in war_job_wp.list %}
                     <li class="list-group-item p-1 border-dark d-flex justify-content-between align-items-center">
                         <span><img src="{{ job.job_image }}" width="24" height="24"> {{ job.job_name }}</span>
-                        <span class="badge badge-primary">{{ job.total }}</span>
+                        <span class="badge badge-info">{{ job.total }}</span>
                     </li>
                     {% endfor %}
                 </ul>

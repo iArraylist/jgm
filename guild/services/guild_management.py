@@ -147,38 +147,39 @@ class GuildManagement(object):
         pm = ProfileManagement(base.member)
         base_dto['profile'] = pm.get()
 
-        war_job_woe = base.guild_war_jobs.get(war=0)
-        woe = dict()
-        woe['id'] = war_job_woe.pk
-        if war_job_woe.job:
-            woe['job_name'] = war_job_woe.job.name
-            woe['job_image'] = war_job_woe.job.image.url
-        else:
-            woe['job_name'] = None
-            woe['job_image'] = None
-        base_dto['war_job_woe'] = woe
+        if base.guild_war_jobs.all().exists():
+            war_job_woe = base.guild_war_jobs.get(war=0)
+            woe = dict()
+            woe['id'] = war_job_woe.pk
+            if war_job_woe.job:
+                woe['job_name'] = war_job_woe.job.name
+                woe['job_image'] = war_job_woe.job.image.url
+            else:
+                woe['job_name'] = None
+                woe['job_image'] = None
+            base_dto['war_job_woe'] = woe
 
-        war_job_woc = base.guild_war_jobs.get(war=1)
-        woc = dict()
-        woc['id'] = war_job_woc.pk
-        if war_job_woc.job:
-            woc['job_name'] = war_job_woc.job.name
-            woc['job_image'] = war_job_woc.job.image.url
-        else:
-            woc['job_name'] = None
-            woc['job_image'] = None
-        base_dto['war_job_woc'] = woc
+            war_job_woc = base.guild_war_jobs.get(war=1)
+            woc = dict()
+            woc['id'] = war_job_woc.pk
+            if war_job_woc.job:
+                woc['job_name'] = war_job_woc.job.name
+                woc['job_image'] = war_job_woc.job.image.url
+            else:
+                woc['job_name'] = None
+                woc['job_image'] = None
+            base_dto['war_job_woc'] = woc
 
-        war_job_zone = base.guild_war_jobs.get(war=2)
-        zone = dict()
-        zone['id'] = war_job_zone.pk
-        if war_job_zone.job:
-            zone['job_name'] = war_job_zone.job.name
-            zone['job_image'] = war_job_zone.job.image.url
-        else:
-            zone['job_name'] = None
-            zone['job_image'] = None
-        base_dto['war_job_zone'] = zone
+            war_job_zone = base.guild_war_jobs.get(war=2)
+            zone = dict()
+            zone['id'] = war_job_zone.pk
+            if war_job_zone.job:
+                zone['job_name'] = war_job_zone.job.name
+                zone['job_image'] = war_job_zone.job.image.url
+            else:
+                zone['job_name'] = None
+                zone['job_image'] = None
+            base_dto['war_job_zone'] = zone
 
         return base_dto
 
