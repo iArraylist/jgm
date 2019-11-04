@@ -21,12 +21,13 @@ $(function() {
        data-url_push_pmc_data="{% url 'guild_party_push_war_job' invite_code war.war_type %}"
        data-url_push_leader="{% url 'guild_party_push_leader' invite_code war.war_type %}"
        data-url_push_party_data="{% url 'guild_party_push_party_data' invite_code war.war_type %}"
+       data-url_del_party="{% url 'guild_party_del' invite_code war.war_type %}"
+       data-url_check_left_behind="{% url 'guild_party_check_left_behind' invite_code war.war_type %}"
        id="url_list">
 {% for party in party_list %}
-<div class="card bg-light border-dark m-3 w-18rem">
+<div class="card bg-light border-dark m-3 w-18rem" id="party_{{ party.id }}">
     <div class="card-header {{ party.data.color }} p-1 px-2" id="party_header_{{ party.id }}">
         <div class="row m-0">
-
             <div class="col p-0" id="party_name_{{ party.id }}" data-p_id="{{ party.id }}" data-party_name="{{ party.name }}" data-party_a_tool="party_a_tool_{{ party.id }}" data-party_b_tool="party_b_tool_{{ party.id }}" data-party_c_tool="party_c_tool_{{ party.id }}">
                 {{ party.name }}
             </div>
@@ -34,7 +35,7 @@ $(function() {
                 <button class="rm-border" name="party_data_edit_btn" type="button" style="background-color: rgba(0,0,0,0);" data-party_name_div="party_name_{{ party.id }}" data-party_remark_div="party_remark_{{ party.id }}" data-party_color_select="color_select_{{ party.id }}">
                     <i class="fa fa-pencil-square-o"></i>
                 </button>
-                <button class="rm-border" name="party_del_btn" type="button" style="background-color: rgba(0,0,0,0);" data-go="{% url 'guild_party_del' invite_code war.war_type party.id %}" data-party_name="{{ party.name }}">
+                <button class="rm-border" name="party_del_btn" type="button" style="background-color: rgba(0,0,0,0);" data-p_id="{{ party.id }}" data-party_name="{{ party.name }}" data-party_div="party_{{ party.id }}">
                     <i class="fa fa-trash-o"></i>
                 </button>
             </div>

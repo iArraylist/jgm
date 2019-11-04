@@ -17,20 +17,20 @@
                 <a class="nav-link active" href="#">{{ war.war_name }}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'guild_party_summary' invite_code war.war_type %}">Summary</a>
+                <a class="nav-link" href="{% url 'guild_party_summary' invite_code war.war_type %}">Summary <span id="exclamation_icon" style="color: Red;" {% if not left_behind %} hidden {% endif %}><i class="fa fa-exclamation-circle"></i></span></a>
             </li>
         </ul>
     </div>
     <div class="card-body row py-1">
         {% if edit %}
-        <a href="{% url 'guild_party_list' invite_code war.war_type %}" class="btn btn-labeled btn-primary m-2">
+        <a href="{% url 'guild_party_list' invite_code war.war_type %}" class="btn btn-labeled btn-primary m-2 ml-3">
             <span class="btn-label"><i class="fa fa-check"></i></span>Finish
         </a>
         <a href="{% url 'guild_party_add' invite_code war.war_type %}" class="btn btn-labeled btn-dark m-2">
             <span class="btn-label"><i class="fa fa-plus"></i></span>Add
         </a>
         {% else %}
-        <a href="{% url 'guild_party_edit_list' invite_code war.war_type %}" class="btn btn-labeled btn-dark m-2">
+        <a href="{% url 'guild_party_edit_list' invite_code war.war_type %}" class="btn btn-labeled btn-dark m-2 ml-3">
             <span class="btn-label"><i class="fa fa-pencil"></i></span>Edit
         </a>
         {% endif %}

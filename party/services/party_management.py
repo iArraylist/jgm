@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from rom.models import Job
 from guild.models import Guild
 from party.models import Party, PartyMember
 from django.core.exceptions import PermissionDenied
@@ -46,6 +47,49 @@ class PartyManagement(object):
             party_list.append(party)
         return party_list
 
+    def get_summary(self):
+        war_job_wp_q = self.guild.member_war_jobs.filter(war=self.WAR_TYPE, party_m__isnull=False).order_by('job__sort', 'character__ign')
+        war_job_wp = dict()
+        war_job_wp_list = list()
+        wp_total = 0
+        for job in Job.objects.all():
+            war_job_wp_filter_job = war_job_wp_q.filter(job=job)
+            dto = dict()
+            dto['job_name'] = job.name
+            dto['job_image'] = job.image.url
+            chl = list()
+            for war_job in war_job_wp_filter_job:
+                ch_dto = dict()
+                ch_dto['ign'] = war_job.character.ign
+                ch_dto['nickname'] = war_job.character.member.profile.nickname
+                chl.append(ch_dto)
+            dto['total'] = len(war_job_wp_filter_job)
+            dto['character_list'] = chl
+            wp_total = wp_total + dto['total']
+            war_job_wp_list.append(dto)
+        war_job_wp['total'] = wp_total
+        war_job_wp['list'] = war_job_wp_list
+
+        war_job_wop_q = self.guild.member_war_jobs.filter(war=self.WAR_TYPE, party_m__isnull=True).order_by('job__sort', 'character__ign')
+        war_job_wop = dict()
+        war_job_wop_list = list()
+        wop_total = 0
+        for war_job in war_job_wop_q:
+            ch_dto = dict()
+            ch_dto['ign'] = war_job.character.ign
+            ch_dto['nickname'] = war_job.character.member.profile.nickname
+            ch_dto['job'] = dict()
+            ch_dto['job']['job_name'] = war_job.job.name
+            ch_dto['job']['job_image'] = war_job.job.image.url
+            wop_total = wop_total + 1
+            war_job_wop_list.append(ch_dto)
+        war_job_wop['total'] = wop_total
+        war_job_wop['list'] = war_job_wop_list
+        return war_job_wp, war_job_wop
+
+    def left_behind(self):
+        return self.guild.member_war_jobs.filter(war=self.WAR_TYPE, party_m__isnull=True).exists()
+
     def get_war_name(self):
         return self.WAR_NAME
 
@@ -87,7 +131,9 @@ class PartyManagement(object):
             pm.save()
 
     def delete(self):
+        error_code = 0
         self.party.delete()
+        return error_code
 
     def push_war_job(self, war_job_id):
         error_code = 0

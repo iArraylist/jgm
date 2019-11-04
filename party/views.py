@@ -24,6 +24,7 @@ def party_list(request, invite_code, war_type):
     context['war'] = {'war_name': war_name, 'war_type': war_type}
     context['invite_code'] = invite_code
     context['job_images'] = job_images
+    context['left_behind'] = service.left_behind()
     return render(request, 'party/list.html', context=context)
 
 
@@ -32,9 +33,12 @@ def party_summary(request, invite_code, war_type):
     rm = RequestManagement(request)
     service = PartyService(rm.get_user(), invite_code=invite_code, war_type=war_type, allow_role=[0, 1, 2]).get()
     war_name = service.get_war_name()
+    war_job_wp, war_job_wop = service.get_summary()
     context = dict()
     context['war'] = {'war_name': war_name, 'war_type': war_type}
     context['invite_code'] = invite_code
+    context['war_job_wp'] = war_job_wp
+    context['war_job_wop'] = war_job_wop
     return render(request, 'party/summary.html', context=context)
 
 
@@ -49,6 +53,7 @@ def party_edit_list(request, invite_code, war_type):
     context['war'] = {'war_name': war_name, 'war_type': war_type}
     context['invite_code'] = invite_code
     context['job_images'] = job_images
+    context['left_behind'] = service.left_behind()
     context['jobs'] = jobs
     context['edit'] = True
     return render(request, 'party/list.html', context=context)
@@ -63,11 +68,14 @@ def party_add(request, invite_code, war_type):
 
 
 @login_required
-def party_del(request, invite_code, war_type, p_id):
+def party_del(request, invite_code, war_type):
     rm = RequestManagement(request)
+    p_id = request.GET.get('p_id')
     service = PartyService(rm.get_user(), invite_code=invite_code, war_type=war_type, allow_role=[0, 1], p_id=p_id).get()
-    service.delete()
-    return redirect(reverse('guild_party_edit_list', args=[invite_code, war_type]))
+    res = dict()
+    res['error_code'] = service.delete()
+    response = HttpResponse(json.dumps(res), content_type='application/json; charset=UTF-8')
+    return response
 
 
 @csrf_exempt
@@ -123,5 +131,17 @@ def push_party_data(request, invite_code, war_type):
     service = PartyService(rm.get_user(), invite_code=invite_code, war_type=war_type, allow_role=[0, 1], p_id=p_id).get()
     res = dict()
     res['error_code'] = service.push_data(party_name=party_name, data=data)
+    response = HttpResponse(json.dumps(res), content_type='application/json; charset=UTF-8')
+    return response
+
+
+@csrf_exempt
+@login_required
+def check_left_behind(request, invite_code, war_type):
+    rm = RequestManagement(request)
+    service = PartyService(rm.get_user(), invite_code=invite_code, war_type=war_type, allow_role=[0, 1]).get()
+    res = dict()
+    res['error_code'] = 0
+    res['left_behind'] = service.left_behind()
     response = HttpResponse(json.dumps(res), content_type='application/json; charset=UTF-8')
     return response

@@ -16,12 +16,15 @@ class ProfileManagement(object):
 
     def update(self, form_json):
         line_contact = form_json['line_contact']
+        nickname = form_json['nickname']
         self.profile.line_contact = line_contact
+        self.profile.nickname = nickname
         self.profile.save()
 
     def get(self):
         profile = dict()
         profile['line_contact'] = self.profile.line_contact
+        profile['nickname'] = self.profile.nickname
         return profile
 
     def get_form(self):
@@ -30,5 +33,6 @@ class ProfileManagement(object):
     def __generate_form(self):
         initial = dict()
         initial['line_contact'] = self.profile.line_contact
+        initial['nickname'] = self.profile.nickname
         form = ProfileForm(initial=initial)
         return form

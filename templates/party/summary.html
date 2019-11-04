@@ -2,20 +2,63 @@
 {% block title %} Home {% endblock %}
 {% block content %}
 
-<div class="card text-center">
-  <div class="card-header">
-    <ul class="nav nav-tabs card-header-tabs">
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'guild_party_list' invite_code war.war_type %}">{{ war.war_name }}</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link active" href="#">Summary</a>
-      </li>
-    </ul>
-  </div>
-  <div class="card-body">
-
-  </div>
+<div class="card">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'guild_party_list' invite_code war.war_type %}">{{ war.war_name }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Summary {% if war_job_wop.list %}<span style="color: Red;"><i class="fa fa-exclamation-circle"></i></span>{% endif %}</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        {% if war_job_wop.list %}
+        <div class="alert alert-danger alert-dismissible fade show m-2" role="alert">
+            <small><strong>Gimme a party!!</strong></small>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% else %}
+        <div class="alert alert-success alert-dismissible fade show mb-2" role="alert">
+            <small><strong>HAPPY, NO ONE GETS LEFT BEHIND.</strong></small>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endif %}
+        <div class="row m-0">
+            {% if war_job_wop.list %}
+            <div class="col col-sm-5 col-md-4 col-lg-2 p-1" style="max-width: 10.5rem;">
+                <ul class="list-group">
+                    <li class="list-group-item p-1 text-center">
+                        Without Party <span class="badge badge-info">{{ war_job_wop.total }}</span>
+                    </li>
+                    {% for ch in war_job_wop.list %}
+                    <li class="list-group-item p-1">
+                        <span><img src="{{ ch.job.job_image }}" width="24" height="24"> <small>{{ ch.ign }}</small></span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            <div class="col col-sm-5 col-md-4 col-lg-2 p-1" style="max-width: 10.5rem;">
+                <ul class="list-group">
+                    <li class="list-group-item p-1 text-center bg-warning border-dark">
+                        With Party <span class="badge badge-info">{{ war_job_wp.total }}</span>
+                    </li>
+                    {% for job in war_job_wp.list %}
+                    <li class="list-group-item p-1 border-dark d-flex justify-content-between align-items-center">
+                        <span><img src="{{ job.job_image }}" width="24" height="24"> <small>{{ job.job_name }}</small></span>
+                        <span class="badge badge-primary">{{ job.total }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

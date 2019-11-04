@@ -80,8 +80,8 @@ class CharacterJob(models.Model):
 
 class Profile(models.Model):
     member = models.OneToOneField('auth.User', on_delete=models.CASCADE, primary_key=True)
-    line_contact = models.CharField(max_length=50)
-    nickname = models.CharField(max_length=50)
+    line_contact = models.CharField(max_length=50, default='')
+    nickname = models.CharField(max_length=50, default='')
 
     def __str__(self):
         return 'profile_%s' % self.member.pk

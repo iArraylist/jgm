@@ -8,6 +8,8 @@ var WidgetURL = Class.extend({
         this.url_pushPMCData = url_list.dataset.url_push_pmc_data;
         this.url_pushLeader = url_list.dataset.url_push_leader;
         this.url_pushPartyData = url_list.dataset.url_push_party_data;
+        this.url_delParty = url_list.dataset.url_del_party;
+        this.url_checkLeftBehind = url_list.dataset.url_check_left_behind;
     }
 });
 
@@ -19,7 +21,7 @@ var WidgetParty = WidgetURL.extend({
         this.addelstn('party_data_edit_btn', 'button', 'click', this.party_data_edit);
         this.addelstn('party_data_back_btn', 'button', 'click', this.party_data_back);
         this.addelstn('party_data_save_btn', 'button', 'click', this.party_data_save, this.url_pushPartyData);
-        this.addelstn('party_del_btn', 'button', 'click', this.party_del);
+        this.addelstn('party_del_btn', 'button', 'click', this.party_del, this.url_delParty);
         this.addelstn('color_select', 'select-one', 'change', this.color_sl_change);
     },
     addelstn:function(e_name, e_type, event, func, url){
@@ -129,10 +131,23 @@ var WidgetParty = WidgetURL.extend({
             alert('Pls enter party name')
         };
     },
-    party_del: function(e){
+    party_del: function(e, url){
         var con = confirm('Delete party ' + e.dataset.party_name + '?');
         if (con == true) {
-            location.replace(e.dataset.go);
+            var pass_data = {};
+            pass_data['p_id'] = e.dataset.p_id;
+            $.ajax({
+                dataType: 'json',
+                url: url,
+                type: 'GET',
+                data: pass_data
+            }).done(function (response) {
+                if (response.error_code == 0) {
+                    document.getElementById(e.dataset.party_div).remove();
+                } else {
+                    alert('Something wrong!!. Pls contact Jaelynn');
+                }
+            });
         }
     },
     leader_cb_change: function(e, url){
@@ -191,17 +206,20 @@ var WidgetPartySelectCharacter = WidgetURL.extend({
                     pmc_select = document.getElementById(this.dataset.pmc_select);
                     pmc_select.dataset.war_job_id = 'None';
                     widget.reloadData(this, pmc_select);
+                    widget.setExclamation();
                 });
                 $(pmc_select).data('widget', this);
                 pmc_select.addEventListener('focus', function(){
                     widget = $(this).data('widget');
                     pmj_select = document.getElementById(this.dataset.pmj_select);
                     widget.reloadData(pmj_select, this);
+                    widget.setExclamation();
                 });
                 pmc_select.addEventListener('change', function(){
                     widget = $(this).data('widget');
                     pmj_select = document.getElementById(this.dataset.pmj_select);
                     widget.pushPMCData(pmj_select, this);
+                    widget.setExclamation();
                 });
             };
         };
@@ -263,10 +281,28 @@ var WidgetPartySelectCharacter = WidgetURL.extend({
             dataType: 'json',
             url: this.url_pushPMCData,
             type: 'GET',
-            data: pass_data
+            data: pass_data,
+            async: false
         }).done(function (response) {
             if (response.error_code == 0) {
                 pmc_select.dataset.war_job_id = pmc_select.value
+            } else {
+                alert('Something wrong!!. Pls contact Jaelynn');
+            }
+        });
+    },
+    setExclamation: function(){
+        $.ajax({
+            url: this.url_checkLeftBehind,
+            type: 'GET'
+        }).done(function (response) {
+            if (response.error_code == 0) {
+                exc = document.getElementById('exclamation_icon')
+                if (response.left_behind) {
+                    exc.removeAttribute('hidden');
+                } else {
+                    exc.setAttribute('hidden', true);
+                }
             } else {
                 alert('Something wrong!!. Pls contact Jaelynn');
             }
