@@ -1,6 +1,7 @@
 {% load static %}
 {% load rom_extras %}
 
+
 {% for party in party_list %}
 <div class="card bg-light border-dark m-3 w-18rem">
     <div class="card-header {{ party.data.color }} p-1 px-2">
@@ -15,7 +16,7 @@
         <div class="row m-0">
             <div class="col-11 p-0">
                 {% if member.war_job_id %}
-                <span><img src="{{ job_images|get_item:member.job_id }}" width="24" height="24"> {{ member.name }}</span>
+                <span data-toggle="tooltip" data-placement="right" title="{{ member.nickname }}" style="padding-right: 5px;"><img src="{{ job_images|get_item:member.job_id }}" width="24" height="24"> {{ member.ign }}</span>
                 {% else %}
                 <span>------------</span>
                 {% endif %}

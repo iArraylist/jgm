@@ -34,14 +34,17 @@ class PartyManagement(object):
                     war_job_id = m.war_job.pk
                     ign = m.war_job.character.ign
                     job_id = m.war_job.job.pk
+                    nickname = m.war_job.character.member.profile.nickname
                 except AttributeError:
                     war_job_id = None
                     ign = None
                     job_id = None
+                    nickname = None
                 member['id'] = m.pk
                 member['data'] = m.get_data_json()
                 member['war_job_id'] = war_job_id
-                member['name'] = ign
+                member['ign'] = ign
+                member['nickname'] = nickname
                 member['job_id'] = job_id
                 party['member'].append(member)
             party_list.append(party)

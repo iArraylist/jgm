@@ -30,6 +30,7 @@ def party_list(request, invite_code, war_type):
 
 @login_required
 def party_summary(request, invite_code, war_type):
+    edit_stage = request.GET.get('edit_stage', 'f')
     rm = RequestManagement(request)
     service = PartyService(rm.get_user(), invite_code=invite_code, war_type=war_type, allow_role=[0, 1, 2]).get()
     war_name = service.get_war_name()
@@ -39,6 +40,7 @@ def party_summary(request, invite_code, war_type):
     context['invite_code'] = invite_code
     context['war_job_wp'] = war_job_wp
     context['war_job_wop'] = war_job_wop
+    context['edit_stage'] = edit_stage
     return render(request, 'party/summary.html', context=context)
 
 

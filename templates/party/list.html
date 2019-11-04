@@ -17,7 +17,7 @@
                 <a class="nav-link active" href="#">{{ war.war_name }}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'guild_party_summary' invite_code war.war_type %}">Summary <span id="exclamation_icon" style="color: Red;" {% if not left_behind %} hidden {% endif %}><i class="fa fa-exclamation-circle"></i></span></a>
+                <a class="nav-link" href="{% url 'guild_party_summary' invite_code war.war_type %}?{% if edit %}edit_stage=t{% endif %}">Summary <span id="exclamation_icon" style="color: Red;" {% if not left_behind %} hidden {% endif %}><i class="fa fa-exclamation-circle"></i></span></a>
             </li>
         </ul>
     </div>
