@@ -79,8 +79,12 @@ class PartyManagement(object):
             ch_dto['ign'] = war_job.character.ign
             ch_dto['nickname'] = war_job.character.member.profile.nickname
             ch_dto['job'] = dict()
-            ch_dto['job']['job_name'] = war_job.job.name
-            ch_dto['job']['job_image'] = war_job.job.image.url
+            if war_job.job:
+                ch_dto['job']['job_name'] = war_job.job.name
+                ch_dto['job']['job_image'] = war_job.job.image.url
+            else:
+                ch_dto['job']['job_name'] = None
+                ch_dto['job']['job_image'] = None
             wop_total = wop_total + 1
             war_job_wop_list.append(ch_dto)
         war_job_wop['total'] = wop_total
