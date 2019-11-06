@@ -83,5 +83,5 @@ def home(request, invite_code):
     context['bases'] = bases
     context['invite_code'] = invite_code
     context['guild_info'] = gam.get_guild()
-    context['temp_perm'] - gam.temp_perm()
+    context['temp_perm'] = gam.temp_perm()
     return render(request, 'guild/home.html', context=context)
