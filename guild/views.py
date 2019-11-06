@@ -41,6 +41,7 @@ def join_landing(request, invite_code):
     context = dict()
     context['bases'] = bases
     context['invite_code'] = invite_code
+    context['guild_info'] = gm.get_guild()
     return render(request, 'guild/join.html', context=context)
 
 

@@ -5,25 +5,24 @@
 <div class="col-lg-6">
     <div class="card card-outline-secondary">
         <div class="card-header">
-            <h3 class="mb-0">Character</h3>
+            <h3 class="mb-0">Join "{{ guild_info.name }}"</h3>
         </div>
         <div class="card-body">
             <div class="form-group row">
                 <div class="col-lg-9">
-                    {% for base in bases %}
-                    <span>{{ base.ign }}</span>
-                    {% if not base.waiting %}
-                    <a href="{% url 'guild_join' base.id invite_code %}" class="btn btn-success">Join</a>
+                    {% if bases %}
+                        {% for base in bases %}
+                        <span>{{ base.ign }}</span>
+                        {% if not base.waiting %}
+                        <a href="{% url 'guild_join' base.id invite_code %}" class="btn btn-success btn-sm">Join</a>
+                        {% else %}
+                        <button class="btn btn-secondary btn-sm" disabled>Waiting</button>
+                        {% endif %}
+                        <hr>
+                        {% endfor %}
                     {% else %}
-                    <a href="#" class="btn btn-secondary">Cancel</a>
+                    <span>You have no character can join us! Pls.</span><a href="{% url 'rom_character_create' %}" class="btn btn-dark btn-sm">Create Character</a>
                     {% endif %}
-                    <hr>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-lg-9">
-                    <a href="{% url 'rom_character_create' %}" class="btn btn-success">Create Character</a>
                 </div>
             </div>
         </div>
