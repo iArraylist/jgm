@@ -77,7 +77,7 @@ SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [
 LOGIN_URL = 'rom_login'
 LOGIN_REDIRECT_URL = 'rom_home'
 
-URL_SITE = 'app.jgm.com:8000'
+URL_SITE = 'app.jgm.com'
 SITE_ID = 2610
 ROOT_URLCONF = 'jgm.urls'
 SUBDOMAIN_URLCONFS = {
@@ -160,14 +160,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'jgm/static/'),
+    os.path.join(BASE_DIR, 'jgm/static'),
 )
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'jgm/media/')
 
-CHARACTER_MAX_LEVEL = 120
+CHARACTER_MAX_LEVEL = 130
 
 try:
     from local_settings import *
 except ImportError:
     raise
+
