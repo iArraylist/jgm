@@ -51,7 +51,7 @@ def join(request, base_id, invite_code):
     chm = CharacterManagement(rm.get_user(), base_id=base_id)
     gam = GuildManagement(rm.get_user(), invite_code=invite_code)
     gam.join_waiting(base=chm.base)
-    return redirect('rom_home')
+    return redirect('guild_join_landing', invite_code)
 
 
 @login_required
