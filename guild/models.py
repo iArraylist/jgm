@@ -88,4 +88,5 @@ class WarJob(models.Model):
     war = models.IntegerField(choices=WAR_TYPE, db_index=True)
 
     def __unicode__(self):
-        return '%s: %s_%s (%s)' % (self.guild.name, self.character.ign, self.job.name, WAR_TYPE[self.war][1])
+        job_name = self.job.name if self.job is not None else 'none'
+        return '%s: %s_%s (%s)' % (self.guild.name, self.character.ign, job_name, WAR_TYPE[self.war][1])
