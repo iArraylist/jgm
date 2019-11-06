@@ -26,8 +26,8 @@ SECRET_KEY = '(^uga0^@0fn!rtxx*9-$_urttm4yfdy!tez$hi_pct+wyf@0%5'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    u'superjaelynn.jgm.com',
-    u'app.jgm.com',
+    u'super-jgm.khunjaelynn.com',
+    u'jgm.khunjaelynn.com',
 ]
 
 
@@ -77,12 +77,12 @@ SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [
 LOGIN_URL = 'rom_login'
 LOGIN_REDIRECT_URL = 'rom_home'
 
-URL_SITE = 'app.jgm.com'
+URL_SITE = 'jgm.khunjaelynn.com'
 SITE_ID = 2610
 ROOT_URLCONF = 'jgm.urls'
 SUBDOMAIN_URLCONFS = {
-    'superjaelynn': 'jgm.urls',
-    'app': 'rom.urls',
+    'super-jgm': 'jgm.urls',
+    'jgm': 'rom.urls',
 }
 
 TEMPLATES = [
