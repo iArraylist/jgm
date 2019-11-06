@@ -1,10 +1,98 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+{% load rom_extras %}
 
-</body>
-</html>
+{% block content %}
+{% block js %}
+<script>
+$(document).ready(function () {
+    $('#member_list_table').DataTable({
+        paging: false,
+        scrollX: true,
+        order: [[ 3, "desc" ]]
+    });
+});
+</script>
+{% endblock %}
+<div class="card mb-3">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Member list</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'guild_waiting_list' invite_code %}">Waiting List</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <table id="member_list_table" class="display" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Line</th>
+                <th>Level</th>
+                <th>Contribution</th>
+                <th>Gold Medal</th>
+                <th class="text-center">WOE</th>
+                <th class="text-center">WOC</th>
+                <th class="text-center">ZONE</th>
+            </tr>
+            </thead>
+
+            <tfoot>
+            <tr>
+                <th>Name</th>
+                <th>Line</th>
+                <th>Level</th>
+                <th>Contribution</th>
+                <th>Gold Medal</th>
+                <th class="text-center">WOE</th>
+                <th class="text-center">WOC</th>
+                <th class="text-center">ZONE</th>
+            </tr>
+            </tfoot>
+
+            <tbody>
+            {% for base in bases %}
+            <tr>
+                <td>
+                    {% if base.owner %}
+                    {{ base.ign }} <a href="{% url 'rom_character_edit' base.id %}"><i class="fa fa-pencil-square-o"></i></a>
+                    {% else %}
+                    {{ base.ign }}
+                    {% endif %}
+                </td>
+                <td><span data-toggle="tooltip" data-placement="right" title="{{ base.profile.nickname }}" style="padding-right: 5px;">{{ base.profile.line_contact }}</span></td>
+                <td>{{ base.base_level }}</td>
+                <td>{{ base.contribution }}</td>
+                <td>{{ base.gold_medal }}</td>
+                <td class="text-center">
+                    {% if base.war_job_woe.job_name %}
+                    <span><img src="{{ base.war_job_woe.job_image }}" width="30" height="30"></span>
+                    {% else %}
+                    <span style="color: Red;"><i class="fa fa-question-circle fa-lg" style="padding-left: 3px;padding-right: 3px;"></i></span>
+                    {% endif %}
+                </td>
+                <td class="text-center">
+                    {% if base.war_job_woc.job_name %}
+                    <span><img src="{{ base.war_job_woc.job_image }}" width="30" height="30"></span>
+                    {% else %}
+                    <span style="color: Red;"><i class="fa fa-question-circle fa-lg" style="padding-left: 3px;padding-right: 3px;"></i></span>
+                    {% endif %}
+                </td>
+                <td class="text-center">
+                    {% if base.war_job_zone.job_name %}
+                    <span><img src="{{ base.war_job_zone.job_image }}" width="30" height="30"></span>
+                    {% else %}
+                    <span style="color: Red;"><i class="fa fa-question-circle fa-lg" style="padding-left: 3px;padding-right: 3px;"></i></span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

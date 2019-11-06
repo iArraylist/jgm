@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% block title %} Home {% endblock %}
 {% block content %}
 
 <div class="col-lg-6">
@@ -63,7 +62,7 @@
                     {% for base in bases %}
                     <a href="{% url 'rom_character_edit' base.id %}">{{ base.ign }}</a>
                     {% if base.guild %}
-                    | <a href="{% url 'guild_member_list' base.guild.invite_code %}">{{ base.guild.guild_name }}</a>
+                    | <a href="{% url 'guild_home' base.guild.invite_code %}">{{ base.guild.guild_name }}</a>
                     {% else %}
                     | <a href="{% url 'guild_create' base.id %}" class="btn btn-dark btn-sm">Create Guild</a>
                     {% endif %}

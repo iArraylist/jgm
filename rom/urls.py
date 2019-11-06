@@ -22,7 +22,7 @@ urlpatterns = [
 
     url(r'^guild/(\w+)/waiting-list/$', guild_views.waiting_list, name='guild_waiting_list'),
     url(r'^guild/(\w+)/approve/(\d+)/$', guild_views.approve, name='guild_approve'),
-    url(r'^guild/(\w+)/member-list/$', guild_views.member_list, name='guild_member_list'),
+    url(r'^guild/(\w+)/$', guild_views.home, name='guild_home'),
 
     url(r'^guild/(\w+)/party/(\w+)/summary/$', party_views.party_summary, name='guild_party_summary'),
     url(r'^guild/(\w+)/party/(\w+)/$', party_views.party_list, name='guild_party_list'),

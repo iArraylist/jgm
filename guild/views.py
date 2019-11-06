@@ -35,13 +35,13 @@ def create(request, base_id):
 def join_landing(request, invite_code):
     rm = RequestManagement(request)
     chm = CharacterManagement(rm.get_user())
-    gm = GuildManagement(rm.get_user(), invite_code=invite_code)
-    bases = chm.get_bases(filter_list=[('join_guild', gm.guild)])
+    gam = GuildManagement(rm.get_user(), invite_code=invite_code)
+    bases = chm.get_bases(filter_list=[('join_guild', gam.guild)])
 
     context = dict()
     context['bases'] = bases
     context['invite_code'] = invite_code
-    context['guild_info'] = gm.get_guild()
+    context['guild_info'] = gam.get_guild()
     return render(request, 'guild/join.html', context=context)
 
 
@@ -49,8 +49,8 @@ def join_landing(request, invite_code):
 def join(request, base_id, invite_code):
     rm = RequestManagement(request)
     chm = CharacterManagement(rm.get_user(), base_id=base_id)
-    gm = GuildManagement(rm.get_user(), invite_code=invite_code)
-    gm.join_waiting(base=chm.base)
+    gam = GuildManagement(rm.get_user(), invite_code=invite_code)
+    gam.join_waiting(base=chm.base)
     return redirect('rom_home')
 
 
@@ -62,6 +62,7 @@ def waiting_list(request, invite_code):
     context = dict()
     context['bases'] = bases
     context['invite_code'] = invite_code
+    context['guild_info'] = gam.get_guild()
     return render(request, 'guild/waiting_list.html', context=context)
 
 
@@ -74,12 +75,12 @@ def approve(request, invite_code, base_id):
 
 
 @login_required
-def member_list(request, invite_code):
+def home(request, invite_code):
     rm = RequestManagement(request)
     gam = GuildManagement(rm.get_user(), invite_code=invite_code, allow_role=[0, 1, 2])
     bases = gam.get_members()
     context = dict()
     context['bases'] = bases
     context['invite_code'] = invite_code
-    return render(request, 'guild/member_list.html', context=context)
-
+    context['guild_info'] = gam.get_guild()
+    return render(request, 'guild/home.html', context=context)

@@ -1,14 +1,22 @@
 {% extends 'base.html' %}
-{% block title %} Home {% endblock %}
+{% load static %}
+{% load rom_extras %}
+
 {% block content %}
 
-<div class="col-lg-6">
-    <div class="card card-outline-secondary">
-        <div class="card-header">
-            <h3 class="mb-0">Request</h3>
-        </div>
-        <div class="card-body">
-            <div class="form-group row">
+<div class="card mb-3">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'guild_home' invite_code %}">Member list</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="">Waiting List</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="form-group row">
                 <div class="col-lg-9">
                     {% for base in bases %}
                     <span>{{ base.ign }}</span>
@@ -18,7 +26,6 @@
                     {% endfor %}
                 </div>
             </div>
-        </div>
     </div>
 </div>
 
