@@ -32,6 +32,7 @@ def create(request):
     context = dict()
     context['submit_url'] = reverse('rom_character_create')
     context['form'] = form
+    context['job_ids'] = []
     context['job_images'] = job_images
     return render(request, 'character.html', context=context)
 
@@ -65,9 +66,9 @@ def edit(request, base_id):
     context['job_images'] = job_images
     context['job_ids'] = [job['job_id'] for job in chm.get_base()['jobs']]
     context['war'] = {
-        'woe_job': chm.get_base().get('guild', {}).get('woe', None),
-        'woc_job': chm.get_base().get('guild', {}).get('woc', None),
-        'zone_job': chm.get_base().get('guild', {}).get('zone', None)
+        'woe_job': chm.get_base().get('guild').get('woe', None) if chm.get_base().get('guild') is not None else None,
+        'woc_job': chm.get_base().get('guild').get('woc', None) if chm.get_base().get('guild') is not None else None,
+        'zone_job': chm.get_base().get('guild').get('zone', None) if chm.get_base().get('guild') is not None else None
     }
     context['error_change'] = error_change
     return render(request, 'character.html', context=context)
