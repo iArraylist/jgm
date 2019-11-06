@@ -26,8 +26,8 @@ SECRET_KEY = '(^uga0^@0fn!rtxx*9-$_urttm4yfdy!tez$hi_pct+wyf@0%5'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    u'super-jgm.khunjaelynn.com',
-    u'jgm.khunjaelynn.com',
+    u'super-jgm.jaelynn.me',
+    u'jgm.jaelynn.me',
 ]
 
 
@@ -77,7 +77,7 @@ SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [
 LOGIN_URL = 'rom_login'
 LOGIN_REDIRECT_URL = 'rom_home'
 
-URL_SITE = 'jgm.khunjaelynn.com'
+URL_SITE = 'jgm.jaelynn.me'
 SITE_ID = 2610
 ROOT_URLCONF = 'jgm.urls'
 SUBDOMAIN_URLCONFS = {
