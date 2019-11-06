@@ -1,9 +1,9 @@
-img.fb {
+img.border {
   border: 3px solid #282c34;
 }
 .container-fluid {
   height: 100vh;
-  background-color: #282c34;
+  background-color: rgba(0,0,0,0);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,4 +24,17 @@ img.fb {
 .btn a, .btn a:hover {
   color: white;
   text-decoration: none ;
+}
+
+.bg {
+  /* The image used */
+  background-image: url("../../media/base_login_bg.jpg");
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }

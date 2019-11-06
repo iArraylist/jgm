@@ -56,7 +56,7 @@
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {% for ass in backends.associated %}
                             {% if ass.provider == 'facebook' %}
-                            <img class="fb" src="{{ass.extra_data.picture.data.url}}" alt="" width="35" height="35" style="border-radius: 50%"> {{ ass.extra_data.name }}
+                            <img class="border" src="{{ass.extra_data.picture.data.url}}" alt="" width="35" height="35" style="border-radius: 50%"> {{ ass.extra_data.name }}
                             {% endif %}
                             {% endfor %}
                         </a>
