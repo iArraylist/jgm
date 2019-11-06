@@ -63,6 +63,11 @@ class GuildManagement(object):
         if not self.guild.members.filter(role__in=allow_role, character__member=self.user).exists():
             raise PermissionDenied
 
+    def temp_perm(self):
+        if not self.guild.members.filter(role__in=[0, 1], character__member=self.user).exists():
+            return False
+        return True
+
     def get_waiting_list(self):
         wa = self.guild.waiting_list.all()
         bases = list()

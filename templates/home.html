@@ -65,8 +65,12 @@
                     <a href="{% url 'rom_character_edit' base.id %}">{{ base.ign }}</a>
                     {% if base.guild %}
                     | <a href="{% url 'guild_home' base.guild.invite_code %}">{{ base.guild.guild_name }}</a>
+                    | <a href="{% url 'guild_party_list' base.guild.invite_code 'woe' %}">Party WOE</a>
+                    | <a href="{% url 'guild_party_list' base.guild.invite_code 'woc' %}">Party WOC</a>
+                    | <a href="{% url 'guild_party_list' base.guild.invite_code 'zone' %}">Party ZONE</a>
+                    <span>ใช้ไปก่อน BETA 0.01</span>
                     {% else %}
-                    | <a href="{% url 'guild_create' base.id %}" class="btn btn-dark btn-sm" hidden>Create Guild</a>
+                    <a href="{% url 'guild_create' base.id %}" class="btn btn-dark btn-sm" hidden>Create Guild</a>
                     {% endif %}
                     <hr>
                     {% endfor %}
