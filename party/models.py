@@ -17,8 +17,8 @@ class Party(models.Model):
         ordering = ['sort']
         unique_together = (('guild', 'war', 'sort'),)
 
-    def __str__(self):
-        return '%s_%s_%s_%s' % (self.guild.name, WAR_TYPE[self.war][1], self.name, self.sort)
+    def __unicode__(self):
+        return '%s: (%s) %s [%s]' % (self.guild.name, WAR_TYPE[self.war][1], self.name, self.sort)
 
     def get_data_json(self, key=None, default=None):
         try:

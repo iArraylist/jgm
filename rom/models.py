@@ -34,7 +34,7 @@ class CharacterBase(models.Model):
     update_timestamp = models.DateTimeField(auto_now=True)
     data = models.TextField(default='null')
 
-    def __str__(self):
+    def __unicode__(self):
         return '%s_%s' % (self.member.pk, self.ign)
 
     def check_job(self, job_id):
@@ -74,8 +74,8 @@ class CharacterJob(models.Model):
     class Meta:
         unique_together = (('base', 'job'),)
 
-    def __str__(self):
-        return '%s_%s' % (self.base.ign, self.job.name)
+    def __unicode__(self):
+        return '%s: %s' % (self.base.ign, self.job.name)
 
 
 class Profile(models.Model):
@@ -83,5 +83,5 @@ class Profile(models.Model):
     line_contact = models.CharField(max_length=50, default='')
     nickname = models.CharField(max_length=50, default='')
 
-    def __str__(self):
+    def __unicode__(self):
         return 'profile_%s' % self.member.pk

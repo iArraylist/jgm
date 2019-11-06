@@ -25,7 +25,7 @@ class Guild(models.Model):
     create_timestamp = models.DateTimeField(auto_now_add=True)
     update_timestamp = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     def save(self, *args, **kwargs):
@@ -69,16 +69,16 @@ class GuildMember(models.Model):
     character = models.ForeignKey('rom.CharacterBase', db_index=True, related_name='guild', related_query_name='guild')
     role = models.IntegerField(choices=MEMBER_ROLE, db_index=True)
 
-    def __str__(self):
-        return '%s_%s' % (self.guild.name, self.character.ign)
+    def __unicode__(self):
+        return '%s: %s' % (self.guild.name, self.character.ign)
 
 
 class WaitingApprove(models.Model):
     guild = models.ForeignKey('guild.Guild', db_index=True, related_name='waiting_list', related_query_name='waiting_list')
     character = models.ForeignKey('rom.CharacterBase', db_index=True, related_name='waiting', related_query_name='waiting')
 
-    def __str__(self):
-        return '%s_%s' % (self.guild.name, self.character.ign)
+    def __unicode__(self):
+        return '%s: %s' % (self.guild.name, self.character.ign)
 
 
 class WarJob(models.Model):
@@ -87,5 +87,5 @@ class WarJob(models.Model):
     job = models.ForeignKey('rom.Job', db_index=True, blank=True, null=True, default=None)
     war = models.IntegerField(choices=WAR_TYPE, db_index=True)
 
-    def __str__(self):
-        return '%s_%s_%s_%s' % (self.guild.name, self.character.ign, self.job.name, WAR_TYPE[self.war][1])
+    def __unicode__(self):
+        return '%s: %s_%s (%s)' % (self.guild.name, self.character.ign, self.job.name, WAR_TYPE[self.war][1])
