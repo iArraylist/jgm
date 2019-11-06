@@ -1,6 +1,33 @@
 {% extends 'base.html' %}
 {% block content %}
-
+<div class="col-lg-6">
+    <div class="card card-outline-secondary">
+        <div class="card-header">
+            <span><h3 class="mb-0">Character</h3> <a href="{% url 'rom_character_create' %}" class="btn btn-dark btn-sm">Create Character</a></span>
+        </div>
+        <div class="card-body">
+            <div class="form-group row">
+                <div class="col">
+                    {% for base in bases %}
+                    <a href="{% url 'rom_character_edit' base.id %}">{{ base.ign }}</a>
+                    {% if base.guild %}
+                    | <a href="{% url 'guild_home' base.guild.invite_code %}">{{ base.guild.guild_name }} Member list</a>
+                    | <a href="{% url 'guild_party_list' base.guild.invite_code 'woe' %}">Party WOE</a>
+                    | <a href="{% url 'guild_party_list' base.guild.invite_code 'woc' %}">Party WOC</a>
+                    | <a href="{% url 'guild_party_list' base.guild.invite_code 'zone' %}">Party ZONE</a>
+                    <span>ใช้ไปก่อน BETA 0.01</span>
+                    {% else %}
+                    <a href="{% url 'guild_create' base.id %}" class="btn btn-dark btn-sm" hidden>Create Guild</a>
+                    {% endif %}
+                    <hr>
+                    {% endfor %}
+                    <h3><i class="fa fa-hand-o-right"></i><a href="{% url 'guild_join_landing' '863BB8' %}" class="btn btn-warning btn">สร้างตัวละครเสร็จ กดที่นี่สมัครเข้ากิล NOS</a></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
 <div class="col-lg-6">
     <div class="card card-outline-secondary">
         <div class="card-header">
@@ -47,35 +74,6 @@
                     </div>
                 </div>
             </form>
-        </div>
-    </div>
-</div>
-<hr>
-<div class="col-lg-6">
-    <div class="card card-outline-secondary">
-        <div class="card-header">
-            <span><h3 class="mb-0">Character</h3> <a href="{% url 'rom_character_create' %}" class="btn btn-dark btn-sm">Create Character</a></span>
-        </div>
-        <div class="card-body">
-            <div class="form-group row">
-                <div class="col-lg-9">
-                    <h3><i class="fa fa-hand-o-right"></i><a href="{% url 'guild_join_landing' '863BB8' %}" class="btn btn-warning btn">สร้างตัวละครเสร็จ กดที่นี่สมัครเข้ากิล NOS</a></h3>
-                    <hr>
-                    {% for base in bases %}
-                    <a href="{% url 'rom_character_edit' base.id %}">{{ base.ign }}</a>
-                    {% if base.guild %}
-                    | <a href="{% url 'guild_home' base.guild.invite_code %}">{{ base.guild.guild_name }}</a>
-                    | <a href="{% url 'guild_party_list' base.guild.invite_code 'woe' %}">Party WOE</a>
-                    | <a href="{% url 'guild_party_list' base.guild.invite_code 'woc' %}">Party WOC</a>
-                    | <a href="{% url 'guild_party_list' base.guild.invite_code 'zone' %}">Party ZONE</a>
-                    <span>ใช้ไปก่อน BETA 0.01</span>
-                    {% else %}
-                    <a href="{% url 'guild_create' base.id %}" class="btn btn-dark btn-sm" hidden>Create Guild</a>
-                    {% endif %}
-                    <hr>
-                    {% endfor %}
-                </div>
-            </div>
         </div>
     </div>
 </div>
