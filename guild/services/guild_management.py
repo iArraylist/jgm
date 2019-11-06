@@ -108,7 +108,7 @@ class GuildManagement(object):
             )
             waiting.save()
         else:
-            raise Exception("Cannot join %s" % self.guild.name)
+            raise Exception("Cannot join %s you are already in guild approve waiting list or guild(?) member" % self.guild.name)
 
     def get_members(self):
         guild_m = self.guild.members.all()
