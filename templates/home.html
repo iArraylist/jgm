@@ -18,11 +18,11 @@
                     | <a href="{% url 'guild_party_list' base.guild.invite_code 'zone' %}">Party ZONE</a>
                     <span>ใช้ไปก่อน BETA 0.01</span>
                     {% else %}
+                    <hr>
+                    <h3><i class="fa fa-hand-o-right"></i><a href="{% url 'guild_join_landing' '863BB8' %}" class="btn btn-warning btn">สร้างตัวละครเสร็จ กดที่นี่สมัครเข้ากิล NOS</a></h3>
                     <a href="{% url 'guild_create' base.id %}" class="btn btn-dark btn-sm" hidden>Create Guild</a>
                     {% endif %}
-                    <hr>
                     {% endfor %}
-                    <h3><i class="fa fa-hand-o-right"></i><a href="{% url 'guild_join_landing' '863BB8' %}" class="btn btn-warning btn">สร้างตัวละครเสร็จ กดที่นี่สมัครเข้ากิล NOS</a></h3>
                 </div>
             </div>
         </div>
