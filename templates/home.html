@@ -11,7 +11,7 @@
                     {% for base in bases %}
                     <h3><a href="{% url 'rom_character_edit' base.id %}">{{ base.ign }}</a></h3>
                     {% if base.guild %}
-                    มีกิลแล้วจ้า <i class="fa fa-hand-o-right">
+                    มีกิลแล้วจ้า <i class="fa fa-hand-o-right"></i>
                     | <a href="{% url 'guild_home' base.guild.invite_code %}">{{ base.guild.guild_name }} Member list</a>
                     | <a href="{% url 'guild_party_list' base.guild.invite_code 'woe' %}">Party WOE</a>
                     | <a href="{% url 'guild_party_list' base.guild.invite_code 'woc' %}">Party WOC</a>
