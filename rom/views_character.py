@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
+from django.http import HttpResponse
 from jgm.services.request_management import RequestManagement
 from jgm.services.response_management import ResponseManagement
 from rom.services.character_management import CharacterManagement
@@ -78,3 +79,12 @@ def edit(request, base_id):
     context['menu'] = rp.gen_menu_context(stage='dashboard')
     return render(request, 'character.html', context=context)
 
+
+@login_required
+def delete(request, base_id):
+    rm = RequestManagement(request)
+    chm = CharacterManagement(rm.get_user(), base_id=base_id)
+    res = dict()
+    res['error_code'] = chm.delete_base()
+    response = HttpResponse(json.dumps(res), content_type='application/json; charset=UTF-8')
+    return response

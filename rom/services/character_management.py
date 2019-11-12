@@ -71,6 +71,13 @@ class CharacterManagement(object):
         else:
             raise Exception("Please init CharacterManagement with base_id")
 
+    def delete_base(self):
+        if self.base is not None:
+            self.base.delete()
+            return 0
+        else:
+            raise Exception("Please init CharacterManagement with base_id")
+
     def __push_jobs(self, job_ids):
         job_ids = [int(job_id) for job_id in job_ids]
         if self.base is not None:

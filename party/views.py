@@ -75,7 +75,7 @@ def party_add(request, invite_code, war_type):
     service.push()
     return redirect(reverse('guild_party_edit_list', args=[invite_code, war_type]))
 
-
+@csrf_exempt
 @login_required
 def party_del(request, invite_code, war_type):
     rm = RequestManagement(request)

@@ -15,6 +15,7 @@ urlpatterns = [
 
     url(r'^character/create/$', rom_views_character.create, name='rom_character_create'),
     url(r'^character/(\d+)/$', rom_views_character.edit, name='rom_character_edit'),
+    url(r'^character/(\d+)/del$', rom_views_character.delete, name='rom_character_del'),
     url(r'^character/(\d+)/guild/create/$', guild_views.create, name='guild_create'),
     url(r'^character/(\d+)/guild/join/(\w+)/$', guild_views.join, name='guild_join'),
 
