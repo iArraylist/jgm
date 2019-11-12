@@ -30,8 +30,9 @@
     <div class="border-right" id="sidebar-wrapper">
         <div class="sidebar-heading bg-warning"><img src="{% static '../media/jaelynn_logo.png' %}" alt="" width="35" height="35" style="border-radius: 50%"> JGM</div>
         <div class="list-group list-group-flush">
-            <a href="{% url 'rom_home' %}" class="list-group-item list-group-item-action">Dashboard</a>
-            <a href="#" class="list-group-item list-group-item-action" hidden>Guild</a>
+            {% for m in menu.list %}
+            <a href="{{ m.url }}" class="list-group-item list-group-item-action {% if menu.on_stage == m.stage %} active {% endif %}">{{ m.text }}</a>
+            {% endfor %}
         </div>
 
     </div>

@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from jgm.services.request_management import RequestManagement
+from jgm.services.response_management import ResponseManagement
 from rom.services.character_management import CharacterManagement
 from rom.form_character import CharacterForm
 import json
@@ -34,6 +35,8 @@ def create(request):
     context['form'] = form
     context['job_ids'] = []
     context['job_images'] = job_images
+    rp = ResponseManagement(request)
+    context['menu'] = rp.gen_menu_context(stage='dashboard')
     return render(request, 'character.html', context=context)
 
 
@@ -71,5 +74,7 @@ def edit(request, base_id):
         'zone_job': chm.get_base().get('guild').get('zone', None) if chm.get_base().get('guild') is not None else None
     }
     context['error_change'] = error_change
+    rp = ResponseManagement(request)
+    context['menu'] = rp.gen_menu_context(stage='dashboard')
     return render(request, 'character.html', context=context)
 

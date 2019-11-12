@@ -176,12 +176,12 @@ class WOEManagement(PartyManagement):
 
 class WOCManagement(PartyManagement):
     WAR_TYPE = 1
-    WAR_NAME = 'WOE'
+    WAR_NAME = 'WOC'
 
 
 class ZoneManagement(PartyManagement):
     WAR_TYPE = 2
-    WAR_NAME = 'WOE'
+    WAR_NAME = 'ZONE'
 
 
 class PartyService(object):

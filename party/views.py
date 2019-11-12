@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse
 import json
 from django.http import HttpResponse
 from jgm.services.request_management import RequestManagement, get_data
+from jgm.services.response_management import ResponseManagement
 from party.services.party_management import PartyService
 from rom.models import Job
 from rom.views import job_images, jobs
@@ -25,6 +26,8 @@ def party_list(request, invite_code, war_type):
     context['invite_code'] = invite_code
     context['job_images'] = job_images
     context['left_behind'] = service.left_behind()
+    rp = ResponseManagement(request)
+    context['menu'] = rp.gen_menu_context(stage=war_type)
     return render(request, 'party/list.html', context=context)
 
 
@@ -41,6 +44,8 @@ def party_summary(request, invite_code, war_type):
     context['war_job_wp'] = war_job_wp
     context['war_job_wop'] = war_job_wop
     context['edit_stage'] = edit_stage
+    rp = ResponseManagement(request)
+    context['menu'] = rp.gen_menu_context(stage=war_type)
     return render(request, 'party/summary.html', context=context)
 
 
@@ -58,6 +63,8 @@ def party_edit_list(request, invite_code, war_type):
     context['left_behind'] = service.left_behind()
     context['jobs'] = jobs
     context['edit'] = True
+    rp = ResponseManagement(request)
+    context['menu'] = rp.gen_menu_context(stage=war_type)
     return render(request, 'party/list.html', context=context)
 
 

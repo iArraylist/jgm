@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from jgm.services.request_management import RequestManagement
+from jgm.services.response_management import ResponseManagement
 from guild.services.guild_management import GuildCreateManagement, GuildManagement
 from guild.form_guild import GuildCreateForm
 from rom.services.character_management import CharacterManagement
@@ -28,6 +29,8 @@ def create(request, base_id):
     context = dict()
     context['submit_url'] = reverse('guild_create', args=[base_id])
     context['form'] = form
+    rp = ResponseManagement(request)
+    context['menu'] = rp.gen_menu_context(stage='dashboard')
     return render(request, 'guild/create.html', context=context)
 
 
@@ -42,6 +45,8 @@ def join_landing(request, invite_code):
     context['bases'] = bases
     context['invite_code'] = invite_code
     context['guild_info'] = gam.get_guild()
+    rp = ResponseManagement(request)
+    context['menu'] = rp.gen_menu_context(stage='dashboard')
     return render(request, 'guild/join.html', context=context)
 
 
@@ -63,6 +68,8 @@ def waiting_list(request, invite_code):
     context['bases'] = bases
     context['invite_code'] = invite_code
     context['guild_info'] = gam.get_guild()
+    rp = ResponseManagement(request)
+    context['menu'] = rp.gen_menu_context(stage='guild')
     return render(request, 'guild/waiting_list.html', context=context)
 
 
@@ -84,4 +91,6 @@ def home(request, invite_code):
     context['invite_code'] = invite_code
     context['guild_info'] = gam.get_guild()
     context['temp_perm'] = gam.temp_perm()
+    rp = ResponseManagement(request)
+    context['menu'] = rp.gen_menu_context(stage='guild')
     return render(request, 'guild/home.html', context=context)

@@ -11,12 +11,7 @@
                     {% for base in bases %}
                     <h3><a href="{% url 'rom_character_edit' base.id %}">{{ base.ign }} <i class="fa fa-pencil-square-o"></i></a></h3>
                     {% if base.guild %}
-                    มีกิลแล้วจ้า <i class="fa fa-hand-o-right"></i>
-                    | <a href="{% url 'guild_home' base.guild.invite_code %}">{{ base.guild.guild_name }} Member list</a>
-                    | <a href="{% url 'guild_party_list' base.guild.invite_code 'woe' %}">Party WOE</a>
-                    | <a href="{% url 'guild_party_list' base.guild.invite_code 'woc' %}">Party WOC</a>
-                    | <a href="{% url 'guild_party_list' base.guild.invite_code 'zone' %}">Party ZONE</a>
-                    <span>ใช้ไปก่อน BETA 0.01</span>
+                    <i class="fa fa-hand-o-left"></i> มีกิลแล้วจ้า ดูที่เมนู
                     {% else %}
                     <h3><i class="fa fa-hand-o-right"></i><a href="{% url 'guild_join_landing' '863BB8' %}" class="btn btn-warning btn">สร้างตัวละครเสร็จ กดที่นี่สมัครเข้ากิล NOS</a></h3>
                     <a href="{% url 'guild_create' base.id %}" class="btn btn-dark btn-sm" hidden>Create Guild</a>

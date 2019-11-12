@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from jgm.services.request_management import RequestManagement
+from jgm.services.response_management import ResponseManagement
 from rom.services.character_management import CharacterManagement
 from rom.services.profile_mangement import ProfileManagement
 from rom.form_profile import ProfileForm
@@ -25,6 +26,8 @@ def home(request):
     context = dict()
     context['form_profile'] = form_profile
     context['bases'] = bases
+    rp = ResponseManagement(request)
+    context['menu'] = rp.gen_menu_context(stage='dashboard')
     return render(request, 'home.html', context=context)
 
 
