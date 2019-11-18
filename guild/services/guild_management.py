@@ -75,6 +75,11 @@ class GuildManagement(object):
             bases.append(self.__base_dto(w.character))
         return bases
 
+    def get_w_bases(self):
+        if self.guild.waiting_list.first():
+            return True
+        return False
+
     def approve(self, base_id):
         base = self.__get_base(base_id)
         if self.guild.waiting_list.filter(character=base).exists():
