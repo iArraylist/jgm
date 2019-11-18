@@ -44,7 +44,7 @@ class Party(models.Model):
 
 class PartyMember(models.Model):
     party = models.ForeignKey('party.Party', db_index=True, related_name='members', related_query_name='member')
-    war_job = models.ForeignKey('guild.WarJob', db_index=True, blank=True, null=True, default=None, related_name='party_m_list', related_query_name='party_m')
+    war_job = models.ForeignKey('guild.WarJob', db_index=True, blank=True, null=True, default=None, related_name='party_m_list', related_query_name='party_m', on_delete=models.SET_NULL)
     data = models.TextField(default='null')
     sort = models.IntegerField(default=1, db_index=True)
 

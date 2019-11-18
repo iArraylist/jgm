@@ -4,11 +4,13 @@ from __future__ import unicode_literals
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
+from django.http import HttpResponse
 from jgm.services.request_management import RequestManagement
 from jgm.services.response_management import ResponseManagement
 from guild.services.guild_management import GuildCreateManagement, GuildManagement
 from guild.form_guild import GuildCreateForm
 from rom.services.character_management import CharacterManagement
+import json
 
 
 @login_required
@@ -79,6 +81,24 @@ def approve(request, invite_code, base_id):
     gam = GuildManagement(rm.get_user(), invite_code=invite_code, allow_role=[0, 1])
     gam.approve(base_id=base_id)
     return redirect('guild_waiting_list', invite_code)
+
+
+@login_required
+def reject(request, invite_code, base_id):
+    rm = RequestManagement(request)
+    gam = GuildManagement(rm.get_user(), invite_code=invite_code, allow_role=[0, 1])
+    gam.reject(base_id=base_id)
+    return redirect('guild_waiting_list', invite_code)
+
+
+@login_required
+def fire(request, invite_code, base_id):
+    rm = RequestManagement(request)
+    gam = GuildManagement(rm.get_user(), invite_code=invite_code, allow_role=[0, 1])
+    res = dict()
+    res['error_code'] = gam.fire(base_id=base_id)
+    response = HttpResponse(json.dumps(res), content_type='application/json; charset=UTF-8')
+    return response
 
 
 @login_required

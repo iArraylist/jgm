@@ -93,6 +93,14 @@ class GuildManagement(object):
         else:
             raise Exception("Missing request")
 
+    def reject(self, base_id):
+        self.guild.waiting_list.filter(character_id=base_id).delete()
+
+    def fire(self, base_id):
+        self.guild.members.filter(character_id=base_id).delete()
+        self.guild.member_war_jobs.filter(character_id=base_id).delete()
+        return 0
+
     def get_guild(self):
         guild = dict()
         guild['id'] = self.guild.pk

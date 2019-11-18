@@ -21,7 +21,7 @@
                     {% for base in bases %}
                     <span>{{ base.ign }}</span>
                     <a href="{% url 'guild_approve' invite_code base.id %}" class="btn btn-success"><i class="fa fa-check"></i></a>
-                    <a href="#" class="btn btn-danger"><i class="fa fa-times"></i></a>
+                    <a href="{% url 'guild_reject' invite_code base.id %}" class="btn btn-danger"><i class="fa fa-times"></i></a>
                     <hr>
                     {% endfor %}
                 </div>

@@ -12,6 +12,23 @@ $(document).ready(function () {
         order: [[ 3, "desc" ]]
     });
 });
+
+function character_fire(e){
+    var r = confirm("Fire " + e.dataset.ign + "?");
+    if (r == true) {
+        var url = e.dataset.url;
+        $.ajax({
+            url: url,
+            type: 'GET',
+        }).done(function (response) {
+            if (response.error_code == 0) {
+                window.location = '{% url 'guild_home' invite_code %}';
+            } else {
+                alert('Something wrong!!. Pls contact Jaelynn');
+            }
+        });
+    };
+};
 </script>
 {% endblock %}
 <div class="card mb-3">
@@ -59,6 +76,9 @@ $(document).ready(function () {
             {% for base in bases %}
             <tr>
                 <td>
+                    {% if temp_perm %}
+                    <a href="#" data-url="{% url 'guild_fire' invite_code base.id %}" data-ign="{{ base.ign }}" onclick="character_fire(this)"><span style="color: Red;"><i class="fa fa-trash-o"></i></span></a>
+                    {% endif %}
                     {% if base.owner %}
                     {{ base.ign }} <a href="{% url 'rom_character_edit' base.id %}"><i class="fa fa-pencil-square-o"></i></a>
                     {% else %}
