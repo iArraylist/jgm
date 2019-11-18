@@ -39,7 +39,7 @@ function character_fire(e){
             </li>
             {% if temp_perm %}
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'guild_waiting_list' invite_code %}">Waiting List</a>
+                <a class="nav-link" href="{% url 'guild_waiting_list' invite_code %}">Waiting List <span id="exclamation_icon" style="color: Red;" {% if not w_bases %} hidden {% endif %}><i class="fa fa-exclamation-circle"></i></span></a>
             </li>
             {% endif %}
         </ul>

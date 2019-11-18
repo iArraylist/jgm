@@ -106,8 +106,10 @@ def home(request, invite_code):
     rm = RequestManagement(request)
     gam = GuildManagement(rm.get_user(), invite_code=invite_code, allow_role=[0, 1, 2])
     bases = gam.get_members()
+    w_bases = gam.get_waiting_list()
     context = dict()
     context['bases'] = bases
+    context['w_bases'] = w_bases
     context['invite_code'] = invite_code
     context['guild_info'] = gam.get_guild()
     context['temp_perm'] = gam.temp_perm()

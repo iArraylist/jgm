@@ -11,7 +11,7 @@
                 <a class="nav-link" href="{% url 'guild_home' invite_code %}">Member list</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="">Waiting List</a>
+                <a class="nav-link active" href="">Waiting List <span id="exclamation_icon" style="color: Red;" {% if not bases %} hidden {% endif %}><i class="fa fa-exclamation-circle"></i></span></a>
             </li>
         </ul>
     </div>
