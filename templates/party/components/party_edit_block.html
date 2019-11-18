@@ -31,7 +31,7 @@ $(function() {
             <div class="col p-0" id="party_name_{{ party.id }}" data-p_id="{{ party.id }}" data-party_name="{{ party.name }}" data-party_a_tool="party_a_tool_{{ party.id }}" data-party_b_tool="party_b_tool_{{ party.id }}" data-party_c_tool="party_c_tool_{{ party.id }}">
                 {{ party.name }}
             </div>
-            <div class="col-3 p-0 text-right" id="party_a_tool_{{ party.id }}">
+            <div class="col-4 p-0 text-right" id="party_a_tool_{{ party.id }}">
                 <button class="rm-border" name="party_data_edit_btn" type="button" style="background-color: rgba(0,0,0,0);" data-party_name_div="party_name_{{ party.id }}" data-party_remark_div="party_remark_{{ party.id }}" data-party_color_select="color_select_{{ party.id }}">
                     <i class="fa fa-pencil-square-o"></i>
                 </button>
@@ -49,7 +49,7 @@ $(function() {
                     <option value="bg-info" {% if party.data.color == 'bg-info' %} selected {% endif %}>Blue-Green</option>
                 </select>
             </div>
-            <div class="col-3 p-0 text-right" id="party_b_tool_{{ party.id }}" hidden>
+            <div class="col-4 p-0 text-right" id="party_b_tool_{{ party.id }}" hidden>
                 <button class="rm-border" name="party_data_save_btn" type="button" style="background-color: rgba(0,0,0,0);" data-party_name_div="party_name_{{ party.id }}" data-party_remark_div="party_remark_{{ party.id }}" data-party_color_select="color_select_{{ party.id }}">
                     <span style="color: Green;"><i class="fa fa-check"></i></span>
                 </button>
